@@ -1,0 +1,27 @@
+C:\Documents and Settings\huangzhenjun\桌面\08web2_clothing\BM_BLL\bin\Debug\BM_BLL.dll
+C:\Documents and Settings\huangzhenjun\桌面\08web2_clothing\BM_BLL\bin\Debug\BM_BLL.pdb
+C:\Documents and Settings\huangzhenjun\桌面\08web2_clothing\BM_BLL\bin\Debug\BM_DAL.dll
+C:\Documents and Settings\huangzhenjun\桌面\08web2_clothing\BM_BLL\bin\Debug\BM_Info.dll
+C:\Documents and Settings\huangzhenjun\桌面\08web2_clothing\BM_BLL\bin\Debug\BM_DAL.pdb
+C:\Documents and Settings\huangzhenjun\桌面\08web2_clothing\BM_BLL\bin\Debug\BM_Info.pdb
+C:\Documents and Settings\huangzhenjun\桌面\08web2_clothing\BM_BLL\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\huangzhenjun\桌面\08web2_clothing\BM_BLL\obj\Debug\BM_BLL.dll
+C:\Documents and Settings\huangzhenjun\桌面\08web2_clothing\BM_BLL\obj\Debug\BM_BLL.pdb
+F:\黄镇军\08web2_clothing\BM_BLL\bin\Debug\BM_BLL.dll
+F:\黄镇军\08web2_clothing\BM_BLL\bin\Debug\BM_BLL.pdb
+F:\黄镇军\08web2_clothing\BM_BLL\bin\Debug\BM_DAL.dll
+F:\黄镇军\08web2_clothing\BM_BLL\bin\Debug\BM_Info.dll
+F:\黄镇军\08web2_clothing\BM_BLL\bin\Debug\BM_DAL.pdb
+F:\黄镇军\08web2_clothing\BM_BLL\bin\Debug\BM_Info.pdb
+F:\黄镇军\08web2_clothing\BM_BLL\obj\Debug\ResolveAssemblyReference.cache
+F:\黄镇军\08web2_clothing\BM_BLL\obj\Debug\BM_BLL.dll
+F:\黄镇军\08web2_clothing\BM_BLL\obj\Debug\BM_BLL.pdb
+I:\08web2_clothing\BM_BLL\bin\Debug\BM_BLL.dll
+I:\08web2_clothing\BM_BLL\bin\Debug\BM_BLL.pdb
+I:\08web2_clothing\BM_BLL\bin\Debug\BM_DAL.dll
+I:\08web2_clothing\BM_BLL\bin\Debug\BM_Info.dll
+I:\08web2_clothing\BM_BLL\bin\Debug\BM_DAL.pdb
+I:\08web2_clothing\BM_BLL\bin\Debug\BM_Info.pdb
+I:\08web2_clothing\BM_BLL\obj\Debug\ResolveAssemblyReference.cache
+I:\08web2_clothing\BM_BLL\obj\Debug\BM_BLL.dll
+I:\08web2_clothing\BM_BLL\obj\Debug\BM_BLL.pdb

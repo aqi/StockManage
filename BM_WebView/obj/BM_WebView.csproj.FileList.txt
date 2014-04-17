@@ -1,0 +1,11 @@
+bin\BM_WebView.dll
+bin\BM_WebView.pdb
+bin\BM_BLL.dll
+bin\BM_Info.dll
+bin\BM_DAL.dll
+bin\BM_Info.pdb
+bin\BM_DAL.pdb
+bin\BM_BLL.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\BM_WebView.dll
+obj\Debug\BM_WebView.pdb

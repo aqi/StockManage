@@ -1,0 +1,15 @@
+C:\Documents and Settings\huangzhenjun\桌面\08web2_clothing\BM_Info\bin\Debug\BM_Info.dll
+C:\Documents and Settings\huangzhenjun\桌面\08web2_clothing\BM_Info\bin\Debug\BM_Info.pdb
+C:\Documents and Settings\huangzhenjun\桌面\08web2_clothing\BM_Info\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\huangzhenjun\桌面\08web2_clothing\BM_Info\obj\Debug\BM_Info.dll
+C:\Documents and Settings\huangzhenjun\桌面\08web2_clothing\BM_Info\obj\Debug\BM_Info.pdb
+F:\黄镇军\08web2_clothing\BM_Info\bin\Debug\BM_Info.dll
+F:\黄镇军\08web2_clothing\BM_Info\bin\Debug\BM_Info.pdb
+F:\黄镇军\08web2_clothing\BM_Info\obj\Debug\ResolveAssemblyReference.cache
+F:\黄镇军\08web2_clothing\BM_Info\obj\Debug\BM_Info.dll
+F:\黄镇军\08web2_clothing\BM_Info\obj\Debug\BM_Info.pdb
+I:\08web2_clothing\BM_Info\bin\Debug\BM_Info.dll
+I:\08web2_clothing\BM_Info\bin\Debug\BM_Info.pdb
+I:\08web2_clothing\BM_Info\obj\Debug\ResolveAssemblyReference.cache
+I:\08web2_clothing\BM_Info\obj\Debug\BM_Info.dll
+I:\08web2_clothing\BM_Info\obj\Debug\BM_Info.pdb
