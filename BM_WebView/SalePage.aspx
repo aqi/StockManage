@@ -90,16 +90,22 @@ body {
     </td>
     <td style="width: 516px; height: 184px; font-size: 12px;" valign="top">
         <asp:Label ID="lbl_GoodId" runat="server" Text="商品编号："></asp:Label>
-        <asp:DropDownList ID="ddl_GoodId" runat="server" />
+        <asp:DropDownList ID="ddl_GoodId" runat="server" AutoPostBack="true" 
+            OnSelectedIndexChanged="ddl_GoodId_SelectedIndexChanged"/>
+        <br />
+        <asp:Label ID="lbl_GoodName" runat="server" Text="商品名称："></asp:Label>
+        <asp:TextBox ID="txt_goodname" runat="server" ></asp:TextBox>
         <br />
         <asp:Label ID="lbl_Price" runat="server" Text="销售单价："></asp:Label>
         <asp:TextBox ID="txt_price" runat="server" ></asp:TextBox>
+        <asp:Label ID="lbl_PriceRange" runat="server" Text=""  BorderColor="Red"></asp:Label>
         <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server" ControlToValidate="txt_price"
             ErrorMessage="销售单价格式为‘000000...’！" ValidationExpression="\d*"></asp:RegularExpressionValidator>
 
         <br />
         <asp:Label ID="lbl_Num" runat="server" Text="销售数量："></asp:Label>
         <asp:TextBox ID="txt_num" runat="server"></asp:TextBox>
+        <asp:Label ID="lbl_StockNum" runat="server" Text=""  BorderColor="Red"></asp:Label>
         <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server" ControlToValidate="txt_num"
             ErrorMessage="销售数量格式为‘000000...’！" ValidationExpression="\d*"></asp:RegularExpressionValidator>
         <br />

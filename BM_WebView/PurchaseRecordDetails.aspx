@@ -1,13 +1,14 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SaleManager.aspx.cs" Inherits="Web0204.BM.WebView.SaleManager" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PurchaseRecordDetails.aspx.cs" Inherits="Web0204.BM.WebView.PurchaseRecordDetails" %>
+
+<%@ Register Src="ListPager.ascx" TagName="ListPager" TagPrefix="uc2" %>
 
 <%@ Register Src="Manager.ascx" TagName="Manager" TagPrefix="uc1" %>
-<%@ Register Src="ListPager.ascx" TagName="ListPager" TagPrefix="uc2" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head runat="server">
-    <title>销售表管理</title>
+    <title>详细记录</title>
 <style type="text/css">
 <!--
 body {
@@ -85,50 +86,25 @@ body {
     <td><table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0" style="table-layout:fixed">
   <tr>
     <td background="images/main_40.gif" style="width:3px;">&nbsp;</td>
-    <td  style="border-right:solid 1px #9ad452; width: 84px;" valign="top">
+    <td  style="border-right:solid 1px #9ad452; width: 100px;" valign="top">
         &nbsp;
         <uc1:Manager ID="Manager1" runat="server" />
     </td>
-    <td style="width: 516px" valign="top">
-        <br />
-        <asp:Label ID="lbl_Name" runat="server" Text="根据商品编号查询:" Font-Size="12px"></asp:Label>
-        <asp:TextBox ID="txt_Name" runat="server"></asp:TextBox>
-         &nbsp;
-        <asp:Label ID="lbl_Yearmonth" runat="server" Text="根据月份查询:" Font-Size="12px"></asp:Label>
-        <asp:TextBox ID="txt_Yearmonth" MaxLength="6" runat="server"></asp:TextBox>
-        <asp:Button ID="btn_Result" runat="server" OnClick="btn_Result_Click" Text="查 询" Font-Size="12px" />
-        <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="txt_Name"
-            ErrorMessage="商品编号格式为‘000000...’！" ValidationExpression="\d*"></asp:RegularExpressionValidator>
-         <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txt_Yearmonth"
-            ErrorMessage="月份格式为‘201301’！" ValidationExpression="\d\d\d\d\d\d"></asp:RegularExpressionValidator>
-        &nbsp;
+    <td style="width: 516px; font-size: 12px;" valign="top">
         <br />
         <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" CellPadding="4"
-            DataKeyNames="sale_id" ForeColor="#333333" GridLines="Both" 
-            Width="100%" style="font-size: 12px">
+            ForeColor="#333333" GridLines="Both" Width="100%">
             <RowStyle BackColor="#EFF3FB" />
             <Columns>
-                <asp:BoundField DataField="sale_id" HeaderText="销售单号" />
-                <asp:BoundField DataField="good_id" HeaderText="商品编号" />
-                <asp:BoundField DataField="sale_price" HeaderText="销售单价" />
-                <asp:BoundField DataField="purchase_price" HeaderText="采购单价" />
-                <asp:BoundField DataField="purchase_total" HeaderText="成本总价" />
-                <asp:BoundField DataField="sale_num" HeaderText="销售数量" />
-                <asp:BoundField DataField="sale_total" HeaderText="销售总价" />
-                <asp:BoundField DataField="sale_profit" HeaderText="利润" />
-                <asp:BoundField DataField="sale_datetime" HeaderText="销售时间" />
-                <asp:BoundField DataField="buyer_id" HeaderText="采购商编号" />
+                <asp:BoundField DataField="staffinfo_id" HeaderText="采购员工编号" />
+                <asp:BoundField DataField="staffinfo_name" HeaderText="采购员工姓名" />
+                <asp:BoundField DataField="staffinfo_cell" HeaderText="采购员工手机" />
+                <asp:BoundField DataField="supplier_id" HeaderText="供应商编号" />
+                <asp:BoundField DataField="supplier_name" HeaderText="供应商名称" />
             </Columns>
-            <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-            <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
-            <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
-            <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-            <EditRowStyle BackColor="#2461BF" />
-            <AlternatingRowStyle BackColor="White" />
         </asp:GridView>
-        <uc2:ListPager ID="ListPager1" runat="server" />
         &nbsp;
-        &nbsp;&nbsp;
+        <uc2:ListPager ID="ListPager1" runat="server" />
     </td>
     <td background="images/main_42.gif" style="width:3px;">&nbsp;</td>
   </tr>

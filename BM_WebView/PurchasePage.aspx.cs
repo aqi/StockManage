@@ -15,7 +15,9 @@ namespace Web0204.BM.WebView
 {
     public partial class PurchasePage : PageBase
     {
-
+        private string good_name;
+        private int max;
+        private int min;
         private string id;
         private int staffinfo_id = 0;
 
@@ -33,7 +35,8 @@ namespace Web0204.BM.WebView
             this.txt_price.Text = table.Rows[0]["purchase_price"].ToString();
             this.txt_num.Text = table.Rows[0]["purchase_num"].ToString();
             this.txt_datetime.Text = table.Rows[0]["purchase_datetime"].ToString();//DateTime.Now.ToString();//table.Rows[0]["purchase_datetime"].ToString();
-            this.ddl_supplierid.SelectedIndex = this.ddl_supplierid.Items.IndexOf(this.ddl_supplierid.Items.FindByValue(table.Rows[0]["supplier_id"].ToString()));           
+            this.ddl_supplierid.SelectedIndex = this.ddl_supplierid.Items.IndexOf(this.ddl_supplierid.Items.FindByValue(table.Rows[0]["supplier_id"].ToString()));
+            this.txt_goodname.Text = table.Rows[0]["good_name"].ToString();
         }
 
         private int IsSame()
@@ -70,7 +73,7 @@ namespace Web0204.BM.WebView
             {
                 purchase.Staffinfo_Id = staffinfo_id;
             }
-
+            
             if (this.ddl_GoodId.SelectedValue.ToString() == "")
             {
                 purchase.Good_Id = 0;
@@ -82,6 +85,7 @@ namespace Web0204.BM.WebView
             purchase.Purchase_Datetime = DateTime.Now.ToString("yyyyMMdd");//Convert.ToDateTime( DateTime.Now.ToString("HH:mm:ss"));
             purchase.Purchase_Price= this.txt_price.Text;
             purchase.Purchase_Num = this.txt_num.Text;
+            purchase.Good_Name = this.txt_goodname.Text;
             if (this.ddl_supplierid.SelectedValue.ToString() == "")
             {
                 purchase.Supplier_Id = 0;
@@ -90,7 +94,6 @@ namespace Web0204.BM.WebView
             {
                 purchase.Supplier_Id = Convert.ToInt32(this.ddl_supplierid.SelectedValue.ToString());
             }
-            purchase.Good_Name = "";
             purchase.Year_Month = Convert.ToInt32(purchase.Purchase_Datetime.Substring(0, 6));
 
             return purchase;
@@ -101,6 +104,7 @@ namespace Web0204.BM.WebView
             this.ddl_GoodId.SelectedIndex = -1;
             this.txt_datetime.Text = DateTime.Now.ToString("yyyyMMdd"); ;
             this.txt_price.Text = "";
+            this.txt_goodname.Text = Good_Record.Rows[0]["good_name"].ToString();
             this.txt_num.Text = "";
             this.ddl_GoodId.SelectedIndex = -1;
         }
@@ -109,15 +113,6 @@ namespace Web0204.BM.WebView
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            this.ddl_GoodId.DataSource = Good_Record;
-            this.ddl_GoodId.Width = 100;
-            this.ddl_GoodId.DataValueField = "good_num";
-            this.ddl_GoodId.DataBind();
-            this.ddl_supplierid.DataSource = Supplier_Record;
-            this.ddl_supplierid.Width = 100;
-            this.ddl_supplierid.DataValueField = "supplier_id";
-            this.ddl_supplierid.DataBind();
-
             if (Request.QueryString["id"] != null)
             {
                 id = Request.QueryString["id"].ToString();
@@ -131,13 +126,28 @@ namespace Web0204.BM.WebView
             {
                 this.txt_datetime.Text = DateTime.Now.ToString("yyyyMMdd");
             }
+
+            if (!IsPostBack)
+            {
+                this.ddl_GoodId.DataSource = Good_Record;
+                this.ddl_GoodId.Width = 100;
+                this.ddl_GoodId.DataValueField = "good_num";
+                this.ddl_GoodId.DataBind();
+                this.ddl_supplierid.DataSource = Supplier_Record;
+                this.ddl_supplierid.Width = 100;
+                this.ddl_supplierid.DataValueField = "supplier_id";
+                this.ddl_supplierid.DataBind();
+
+                this.lbl_PriceRange.Text ="²É¹º·¶Î§£º" +  Good_Record.Rows[0]["purchase_priceMin"].ToString() + " - " + Good_Record.Rows[0]["purchase_priceMax"].ToString();
+                this.txt_goodname.Text = Good_Record.Rows[0]["good_name"].ToString();
+            }
             if (Request.QueryString["staffid"] != null)
             {
                 staffinfo_id = Convert.ToInt32(Request.QueryString["staffid"].ToString());
             }
             this.txt_datetime.Enabled = false;
- 
-            this.account.Text = Session["LOGINED"].ToString();
+            this.txt_goodname.Enabled = false;
+            this.account.Text = GetAccout();
             this.datetime.Text = this.BindDayWeek();                     
         }
 
@@ -213,6 +223,27 @@ namespace Web0204.BM.WebView
                     }
                     break;
             }
+        }
+
+        protected void ddl_GoodId_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Good good = new Good();
+            GoodProvider provider = new GoodProvider();
+
+            good.Good_Num = this.ddl_GoodId.SelectedValue.ToString();
+
+            DataTable table = provider.Select(good);
+
+            if (table != null && table.Rows.Count == 1)
+            {
+                good_name = table.Rows[0]["good_name"].ToString();
+                max = Convert.ToInt32(table.Rows[0]["purchase_priceMax"].ToString());
+                min = Convert.ToInt32(table.Rows[0]["purchase_priceMin"].ToString());
+            }
+
+            this.lbl_PriceRange.Text = "²É¹º·¶Î§£º" +  min.ToString() + " - " + max.ToString();
+            this.txt_goodname.Text = good_name;
+            this.txt_goodname.Enabled = false;
         }
     }
 }

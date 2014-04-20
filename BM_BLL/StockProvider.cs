@@ -192,7 +192,7 @@ namespace Web0204.BM.BLL
         public DataTable Select(Stock stock, int start, int max)
         {
             StringBuilder commandText = new StringBuilder();
-            commandText.Append("SELECT stock_id,good_id,purchase_price,stock_num, " +
+            commandText.Append("SELECT good_id,purchase_price,stock_num, " +
     "convert(int,purchase_price) * convert(int,stock_num) stock_total, purchase_datetime" +
     " FROM t_Stock stocks WHERE 1 = 1");
             IList parameters = new ArrayList();
@@ -230,8 +230,20 @@ namespace Web0204.BM.BLL
         /// <returns></returns>
         public DataTable SelectRec(Stock stock, int start, int max)
         {
+
             StringBuilder commandText = new StringBuilder();
-            commandText.Append("select isnull(stocks.stock_id, 0) stock_id, " +
+
+            commandText.Append("select 0 purchase_staff, 0 sale_staff, stocks.good_id good_id, stocks.purchase_price purchase_price, " +
+                "SUM(CONVERT(int, stocks.stock_num) * stocks.stock_oper) stock_num, " +
+                "SUM(CONVERT(int, stocks.stock_num) * stocks.stock_oper) * CONVERT(int,stocks.purchase_price) sum, " +
+                "convert(int,a.date) date,a.good_name good_name from t_stock stocks " +
+                "left join (select t_good.good_name,t_stock.good_id, purchase_price, max(purchase_datetime) date " +
+                "from t_stock,t_good where convert(int,t_good.good_num)=t_stock.good_id " +
+                "group by t_stock.good_id, t_stock.purchase_price, t_good.good_name) a " +
+                "on (a.good_id = stocks.good_id and a.purchase_price = stocks.purchase_price) " +
+                "where 1=1 ");
+/*
+            "select isnull(stocks.stock_id, 0) stock_id, " +
     " isnull(stocks.good_id, 0) good_id, " +
     " isnull(stocks.stock_num, 0) stock_num, " +
     " isnull(stocks.purchase_price, 0) purchase_price, " +
@@ -241,11 +253,80 @@ namespace Web0204.BM.BLL
     " from t_stock stocks " +
     //" from t_stock stocks left join (select SUM(convert(int,t_stock.purchase_price) * convert(int,t_stock.stock_num)) sum from t_stock) stocks1 on 1=1 " +
     " where 1=1 ");
+ */
             IList parameters = new ArrayList();
 
             if (stock.Good_Id != 0)
             {
-                commandText.Append(" And good_id=@good_id");
+                commandText.Append(" And stocks.good_id=@good_id ");
+
+                DataParameter parmGoodId = new DataParameter();
+                parmGoodId.ParameterName = "@good_id";
+                parmGoodId.DbType = DbType.Int32;
+                parmGoodId.Value = stock.Good_Id;
+                parameters.Add(parmGoodId);
+            }
+            commandText.Append("group by stocks.good_id, stocks.purchase_price,good_name, date " + 
+                "having SUM(CONVERT(int, stock_num) * stock_oper) > 0");
+            return this.handler.Query(commandText.ToString(), parameters, start, max);
+        }
+
+        /// <summary>
+        /// 利用分页机制,根据指定的过滤条件查询库存记录
+        /// </summary>
+        /// <param name="product">过滤条件</param>
+        /// <param name="start">起始行</param>
+        /// <param name="max">获取记录行的总数</param>
+        /// <returns></returns>
+        public DataTable SelectRecPurchase(Stock stock, int start, int max)
+        {
+
+            StringBuilder commandText = new StringBuilder();
+
+            commandText.Append("select 0 purchase_price, 0 sum, 0 date, " + 
+                "t_stock.good_id, t_stock.stock_num stock_num, t_good.good_name," + 
+                "t_staff.staffinfo_name purchase_staff, 0 sale_staff " + 
+                "from t_stock,t_good,t_staff where t_stock.stock_oper=1 and " + 
+                "t_staff.staffinfo_id=t_stock.staffinfo_id and t_stock.good_id=t_good.good_num ");
+
+            IList parameters = new ArrayList();
+
+            if (stock.Good_Id != 0)
+            {
+                commandText.Append(" and t_stock.good_id=@good_id ");
+
+                DataParameter parmGoodId = new DataParameter();
+                parmGoodId.ParameterName = "@good_id";
+                parmGoodId.DbType = DbType.Int32;
+                parmGoodId.Value = stock.Good_Id;
+                parameters.Add(parmGoodId);
+            }
+            return this.handler.Query(commandText.ToString(), parameters, start, max);
+        }
+
+        /// <summary>
+        /// 利用分页机制,根据指定的过滤条件查询库存记录
+        /// </summary>
+        /// <param name="product">过滤条件</param>
+        /// <param name="start">起始行</param>
+        /// <param name="max">获取记录行的总数</param>
+        /// <returns></returns>
+        public DataTable SelectRecSale(Stock stock, int start, int max)
+        {
+
+            StringBuilder commandText = new StringBuilder();
+
+            commandText.Append("select 0 purchase_price, 0 sum, 0 date, " +
+              "t_stock.good_id, t_stock.stock_num stock_num, t_good.good_name," +
+              "t_staff.staffinfo_name sale_staff, 0 purchase_staff " +
+              "from t_stock,t_good,t_staff where t_stock.stock_oper=-1 and " +
+              "t_staff.staffinfo_id=t_stock.staffinfo_id and t_stock.good_id=t_good.good_num ");
+
+            IList parameters = new ArrayList();
+
+            if (stock.Good_Id != 0)
+            {
+                commandText.Append(" and t_stock.good_id=@good_id ");
 
                 DataParameter parmGoodId = new DataParameter();
                 parmGoodId.ParameterName = "@good_id";
@@ -256,7 +337,6 @@ namespace Web0204.BM.BLL
 
             return this.handler.Query(commandText.ToString(), parameters, start, max);
         }
-
         #endregion
 
         #region --- GetAll方法 ---

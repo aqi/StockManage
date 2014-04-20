@@ -185,7 +185,7 @@ namespace Web0204.BM.BLL
         public DataTable Select(Purchase purchase, int start, int max)
         {
             StringBuilder commandText = new StringBuilder();
-            commandText.Append("SELECT purchase_id,good_id,purchase_price,purchase_num, " +
+            commandText.Append("SELECT convert(char,purchase_id) purchase_id,good_id,purchase_price,purchase_num, " +
     "convert(int,purchase_price) * convert(int,purchase_num) purchase_total, purchase_datetime," +
     " supplier_id FROM t_Purchase purchases WHERE 1 = 1");
             IList parameters = new ArrayList();
@@ -223,7 +223,6 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmStaffinfoId);
             }
 
-
             if (purchase.Supplier_Id != 0)
             {
                 commandText.Append(" AND supplier_id=@supplier_id ");
@@ -235,6 +234,71 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmSupplierId);
             }
 
+            if (purchase.Year_Month != 0)
+            {
+                commandText.Append(" AND year_month=@year_month ");
+
+                DataParameter parmYearMonth= new DataParameter();
+                parmYearMonth.ParameterName = "@year_month";
+                parmYearMonth.DbType = DbType.String;
+                parmYearMonth.Value = purchase.Year_Month;
+                parameters.Add(parmYearMonth);
+            }
+
+            commandText.Append("union all select ");
+            if (purchase.Good_Id != 0 && purchase.Year_Month != 0)
+            {
+                commandText.Append("'本月本编号合计', ");
+            }
+            else if (purchase.Good_Id != 0)
+            {
+                commandText.Append("'本编号合计', ");
+            }
+            else if (purchase.Year_Month != 0)
+            {
+                commandText.Append("'本月合计', ");
+            }
+            else
+            {
+                commandText.Append("'合计', ");
+            }
+
+            if (purchase.Good_Id != 0)
+                commandText.Append("@good_id1, ");
+            else
+                commandText.Append("'', ");
+
+            commandText.Append("'', '', SUM(convert(int,purchase_price) * convert(int,purchase_num)) purchase_total, ");
+
+            if (purchase.Year_Month != 0)
+                commandText.Append("@year_month1, ");
+            else
+                commandText.Append("'', ");
+
+            commandText.Append("0 FROM t_Purchase purchases WHERE 1 = 1 ");
+
+            if (purchase.Good_Id != 0)
+            {
+                commandText.Append(" And good_id=@good_id1 ");
+
+                DataParameter parmGoodId1 = new DataParameter();
+                parmGoodId1.ParameterName = "@good_id1";
+                parmGoodId1.DbType = DbType.Int32;
+                parmGoodId1.Value = purchase.Good_Id;
+                parameters.Add(parmGoodId1);
+            }
+
+            if (purchase.Year_Month != 0)
+            {
+                commandText.Append(" AND year_month=@year_month1 ");
+
+                DataParameter parmYearMonth1 = new DataParameter();
+                parmYearMonth1.ParameterName = "@year_month1";
+                parmYearMonth1.DbType = DbType.String;
+                parmYearMonth1.Value = purchase.Year_Month;
+                parameters.Add(parmYearMonth1);
+            }
+
             return this.handler.Query(commandText.ToString(), parameters, start, max);
         }
 
@@ -243,9 +307,9 @@ namespace Web0204.BM.BLL
         /// </summary>
         /// <param name="purchase">过滤条件</param>
         /// <returns></returns>
-        public DataTable SelectRec(Staff staff)
+        public DataTable SelectRec(Purchase purchase)
         {
-            return this.SelectRec(staff, 0, 0);
+            return this.SelectRec(purchase, 0, 0);
         }
         /// <summary>
         /// 利用分页机制,根据指定的过滤条件查询员工采购记录
@@ -254,7 +318,7 @@ namespace Web0204.BM.BLL
         /// <param name="start">起始行</param>
         /// <param name="max">获取记录行的总数</param>
         /// <returns></returns>
-        public DataTable SelectRec(Staff staff, int start, int max)
+        public DataTable SelectRec(Purchase purchase, int start, int max)
         {
             StringBuilder commandText = new StringBuilder();
  /*           commandText.Append("select staffs.staffinfo_id, staffs.staffinfo_name, " +
@@ -266,7 +330,7 @@ namespace Web0204.BM.BLL
                 "left join (SELECT staffinfo_id,good_id,purchase_num,purchase_price, " +
     "convert(int,purchase_price) * convert(int,purchase_num) sum, purchase_datetime," +
     " supplier_id FROM t_Purchase) purchases  on purchases.staffinfo_id = staffs.staffinfo_id WHERE 1 = 1");
-*/
+
             commandText.Append("select isnull(purchases.purchase_id, 0) purchase_id, staffs.staffinfo_id staffinfo_id, staffs.staffinfo_name staffinfo_name, " +
     "staffs.staffinfo_cell staffinfo_cell, isnull(purchases.good_id, 0) good_id, " +
     " isnull(purchases.purchase_num, 0) purchase_num, " +
@@ -274,59 +338,143 @@ namespace Web0204.BM.BLL
     " isnull(convert(int,purchases.purchase_price) * convert(int,purchases.purchase_num), 0) sum, isnull(purchases.purchase_datetime, '0') purchase_datetime," +
     " isnull(purchases.supplier_id, '0') supplier_id from t_staff staffs, t_Purchase purchases " +
     " where purchases.staffinfo_id = staffs.staffinfo_id ");
+  */
+            commandText.Append("select convert(char,purchase_id) purchase_id, good_id, good_name, purchase_price, purchase_num," +
+                " staffinfo_id, supplier_id, purchase_datetime , convert(int,purchase_price) * convert(int,purchase_num) sum" +
+                " from t_purchase where 1 = 1 ");
             IList parameters = new ArrayList();
 
-            if (0 == staff.Role_Manage)
+            if (purchase.Staffinfo_Id != 0)
             {
-                commandText.Append(" AND staffs.user_id=@user_id ");
+                commandText.Append(" AND staffinfo_id=@staffinfo_id ");
 
                 DataParameter parmStaffinfoId = new DataParameter();
-                parmStaffinfoId.ParameterName = "@user_id";
+                parmStaffinfoId.ParameterName = "@staffinfo_id";
                 parmStaffinfoId.DbType = DbType.Int32;
-                parmStaffinfoId.Value = staff.User_id;
+                parmStaffinfoId.Value = purchase.Staffinfo_Id;
                 parameters.Add(parmStaffinfoId);
             }
 
-            if (!String.IsNullOrEmpty(staff.Staffinfo_Name))
+            if (purchase.Purchase_Id != 0)
             {
-                commandText.Append(" AND staffs.staffinfo_name like @staffinfo_name ");
-                DataParameter parmName = new DataParameter();
-                parmName.ParameterName = "@staffinfo_name";
-                parmName.DbType = DbType.String;
-                parmName.Value = staff.Staffinfo_Name;
-                parameters.Add(parmName);
+                commandText.Append(" AND purchase_id=@purchase_id ");
+
+                DataParameter parmPurchaseId = new DataParameter();
+                parmPurchaseId.ParameterName = "@purchase_id";
+                parmPurchaseId.DbType = DbType.Int32;
+                parmPurchaseId.Value = purchase.Purchase_Id;
+                parameters.Add(parmPurchaseId);
             }
 
-            commandText.Append(" union all select '0',staffs.staffinfo_id staffinfo_id, " +
-                " staffs.staffinfo_name staffinfo_name,staffs.staffinfo_cell staffinfo_cell,'0','0','0'," +
-                " SUM(convert(int,purchases.purchase_num) * convert(int,purchases.purchase_price)) sum," +
-                " purchases.year_month,'0' from t_staff staffs, t_Purchase purchases where purchases.staffinfo_id = staffs.staffinfo_id ");
-            
-            if (0 == staff.Role_Manage)
+            if (purchase.Year_Month != 0)
             {
-                commandText.Append(" AND staffs.user_id=@user_id1 ");
+                commandText.Append(" AND year_month=@year_month ");
+                DataParameter parmYearMonth = new DataParameter();
+                parmYearMonth.ParameterName = "@year_month";
+                parmYearMonth.DbType = DbType.String;
+                parmYearMonth.Value = purchase.Year_Month;
+                parameters.Add(parmYearMonth);
+            }
+            commandText.Append(" union all select ");
+
+            if (purchase.Purchase_Id != 0 && purchase.Year_Month != 0)
+            {
+                commandText.Append("'本月本单合计', ");
+            }
+            else if (purchase.Purchase_Id != 0)
+            {
+                commandText.Append("'本单合计', ");
+            }
+            else if (purchase.Year_Month != 0)
+            {
+                commandText.Append("'本月合计', ");
+            }
+            else
+            {
+                commandText.Append("'合计', ");
+            }
+
+            commandText.Append(" NULL, NULL, NULL, NULL, NULL, NULL, ");
+
+            if (purchase.Year_Month != 0)
+            {
+                commandText.Append("convert(char, @year_month1) purchase_datetime, ");
+            }
+            else
+            {
+                commandText.Append("convert(char, year_month) purchase_datetime, ");
+            }
+
+            commandText.Append(" SUM(convert(int,purchases.purchase_price) * convert(int,purchases.purchase_num)) sum ");
+            commandText.Append("  from t_purchase purchases where 1 = 1 ");
+
+            if (purchase.Staffinfo_Id != 0)
+            {
+                commandText.Append(" AND purchases.staffinfo_id=@staffinfo_id1 ");
 
                 DataParameter parmStaffinfoId1 = new DataParameter();
-                parmStaffinfoId1.ParameterName = "@user_id1";
+                parmStaffinfoId1.ParameterName = "@staffinfo_id1";
                 parmStaffinfoId1.DbType = DbType.Int32;
-                parmStaffinfoId1.Value = staff.User_id;
+                parmStaffinfoId1.Value = purchase.Staffinfo_Id;
                 parameters.Add(parmStaffinfoId1);
             }
 
-            if (!String.IsNullOrEmpty(staff.Staffinfo_Name))
+            if (purchase.Purchase_Id != 0)
             {
-                commandText.Append(" AND staffs.staffinfo_name like @staffinfo_name1 ");
-                DataParameter parmName1 = new DataParameter();
-                parmName1.ParameterName = "@staffinfo_name1";
-                parmName1.DbType = DbType.String;
-                parmName1.Value = staff.Staffinfo_Name;
-                parameters.Add(parmName1);
+                commandText.Append(" AND purchases.purchase_id=@purchase_id1 ");
+
+                DataParameter parmPurchaseId1 = new DataParameter();
+                parmPurchaseId1.ParameterName = "@purchase_id1";
+                parmPurchaseId1.DbType = DbType.Int32;
+                parmPurchaseId1.Value = purchase.Purchase_Id;
+                parameters.Add(parmPurchaseId1);
             }
 
-            commandText.Append(" group by staffs.staffinfo_id,purchases.year_month,staffinfo_name,staffinfo_cell order by staffinfo_id,purchase_datetime");
+            if (purchase.Year_Month != 0)
+            {
+                commandText.Append(" AND purchases.year_month=@year_month1 ");
+                DataParameter parmYearMonth1 = new DataParameter();
+                parmYearMonth1.ParameterName = "@year_month1";
+                parmYearMonth1.DbType = DbType.Int32;
+                parmYearMonth1.Value = purchase.Year_Month;
+                parameters.Add(parmYearMonth1);
+            }
+
+            commandText.Append(" group by year_month order by purchase_datetime DESC");
+            //commandText.Append(" group by staffs.staffinfo_id,purchases.year_month,staffinfo_name,staffinfo_cell order by staffinfo_id,purchase_datetime");
             return this.handler.Query(commandText.ToString(), parameters, start, max);
         }
 
+        /// <summary>
+        /// 获取采购详细信息
+        /// </summary>
+        /// <param name="staffinfo_id">职工ID</param>
+        /// <param name="supplier_id">供应商ID</param>
+        /// <returns></returns>
+        public DataTable GetDetails(int staffinfo_id, int supplier_id)
+        {
+            StringBuilder commandText = new StringBuilder();
+        
+            commandText.Append("select staff.staffinfo_id staffinfo_id, staff.staffinfo_name staffinfo_name," + 
+                "staff.staffinfo_cell, supplier.supplier_id supplier_id , " + 
+                "supplier.supplier_name supplier_name from t_staff staff, t_supplier supplier " +
+                "where staff.staffinfo_id=@staffinfo_id and supplier.supplier_id=@supplier_id ");
+            IList parameters = new ArrayList();
+
+            DataParameter parmStaffinfoId = new DataParameter();
+            parmStaffinfoId.ParameterName = "@staffinfo_id";
+            parmStaffinfoId.DbType = DbType.Int32;
+            parmStaffinfoId.Value = staffinfo_id;
+            parameters.Add(parmStaffinfoId);
+
+            DataParameter parmSupplierId = new DataParameter();
+            parmSupplierId.ParameterName = "@supplier_id";
+            parmSupplierId.DbType = DbType.Int32;
+            parmSupplierId.Value = supplier_id;
+            parameters.Add(parmSupplierId);
+
+            return this.handler.Query(commandText.ToString(), parameters);
+        }
         #endregion
 
         #region --- GetAll方法 ---

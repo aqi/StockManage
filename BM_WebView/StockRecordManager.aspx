@@ -94,21 +94,28 @@ body {
         <br />
         <asp:Label ID="lbl_Position" runat="server" Text="根据商品编号查询:"></asp:Label>
         <asp:TextBox ID="txt_Position" runat="server" Font-Size="12px"></asp:TextBox>
+        <asp:Label ID="lbl_QueryCategory" runat="server" Text="查询类别:"></asp:Label>
+        &nbsp; &nbsp;
+        <asp:DropDownList ID="ddl_QueryCategory" runat="server">
+            <asp:ListItem Value="1">库存信息</asp:ListItem>
+            <asp:ListItem Value="2">入库信息</asp:ListItem>
+            <asp:ListItem Value="3">出库信息</asp:ListItem>
+        </asp:DropDownList>&nbsp;
         <asp:Button ID="btn_Result" runat="server" OnClick="btn_Result_Click" Text="查 询" Font-Size="12px" />
         &nbsp;
-        <asp:Button ID="btn_add" runat="server" OnClick="btn_add_Click" Text="添加记录" Font-Size="12px" /><br />
+        <br />
         <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" CellPadding="4"
-            ForeColor="#333333" GridLines="Both" DataKeyNames="stock_id" OnRowCommand="GridView1_RowCommand" OnRowDataBound="GridView1_RowDataBound" OnRowDeleting="GridView1_RowDeleting" Width="100%">
+            ForeColor="#333333" GridLines="Both" Width="100%">
             <RowStyle BackColor="#EFF3FB" />
             <Columns>
                 <asp:BoundField DataField="good_id" HeaderText="商品编号" />
+                <asp:BoundField DataField="good_name" HeaderText="商品名称" />
                 <asp:BoundField DataField="stock_num" HeaderText="数量" />
                 <asp:BoundField DataField="purchase_price" HeaderText="单价" />
                 <asp:BoundField DataField="sum" HeaderText="总价" />
-                <asp:BoundField DataField="purchase_datetime" HeaderText="操作时间" />
-                <asp:ButtonField CommandName="details" Text="修改" />
-                <asp:CommandField ShowDeleteButton="True" />
-                <asp:BoundField DataField="stock_id" HeaderText="1"/>
+                <asp:BoundField DataField="date" HeaderText="操作时间" />
+                <asp:BoundField DataField="purchase_staff" HeaderText="进货员工(采购人员)" />
+                <asp:BoundField DataField="sale_staff" HeaderText="提货员工(销售人员)" />
             </Columns>
         </asp:GridView>
         &nbsp;

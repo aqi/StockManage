@@ -33,6 +33,7 @@ namespace Web0204.BM.WebView
             purchase_price = Convert.ToInt32(table.Rows[0]["purchase_price"].ToString());
             Session["PURCHASEPRICE"] = purchase_price.ToString();
             this.ddl_GoodId.SelectedIndex = this.ddl_GoodId.Items.IndexOf(this.ddl_GoodId.Items.FindByValue(table.Rows[0]["good_id"].ToString()));
+            this.txt_goodname.Text = table.Rows[0]["good_name"].ToString();
             this.txt_price.Text = table.Rows[0]["sale_price"].ToString();
             this.txt_num.Text = table.Rows[0]["sale_num"].ToString();
             this.txt_datetime.Text = table.Rows[0]["sale_datetime"].ToString();
@@ -49,8 +50,12 @@ namespace Web0204.BM.WebView
             StockProvider provider = new StockProvider();
 
             DataTable table = provider.GetStocks(Convert.ToInt32(this.ddl_GoodId.SelectedValue.ToString()));
-            int price = Convert.ToInt32(this.txt_price.Text);
-            int num = Convert.ToInt32(this.txt_num.Text);
+            int price = 0;
+            int num = 0;
+            if (this.txt_price.Text != "")
+                price = Convert.ToInt32(this.txt_price.Text);
+            if (this.txt_num.Text != "")
+                num = Convert.ToInt32(this.txt_num.Text);
 
             for (int i = 0; i < table.Rows.Count; i++)
             {
@@ -82,8 +87,15 @@ namespace Web0204.BM.WebView
             if (Request.QueryString["staffid"] != null)
             {
                 sale.Staffinfo_Id = staffinfo_id;
+            } 
+            if (this.ddl_GoodId.SelectedValue.ToString() == "")
+            {
+                sale.Good_Id = 0;
             }
-            sale.Good_Id = Convert.ToInt32(this.ddl_GoodId.SelectedValue.ToString());
+            else
+            {
+                sale.Good_Id = Convert.ToInt32(this.ddl_GoodId.SelectedValue.ToString());
+            }
             sale.Sale_Datetime = DateTime.Now.ToString("yyyyMMdd"); ;//Convert.ToDateTime( DateTime.Now.ToString("HH:mm:ss"));
             sale.Sale_Price= this.txt_price.Text;
             //sale.Purchase_Price = Session["PURCHASEPRICE"].ToString();//purchase_price.ToString();
@@ -98,7 +110,7 @@ namespace Web0204.BM.WebView
                 sale.Buyer_Id = Convert.ToInt32(this.ddl_buyerid.SelectedValue.ToString());
             }
 
-            sale.Good_Name = "";
+            sale.Good_Name = this.txt_goodname.Text;
             sale.Year_Month = Convert.ToInt32(sale.Sale_Datetime.Substring(0, 6));
 
             return sale;
@@ -110,6 +122,7 @@ namespace Web0204.BM.WebView
             this.txt_datetime.Text = DateTime.Now.ToString("yyyyMMdd");
             this.txt_price.Text = "";
             this.txt_num.Text = "";
+            this.txt_goodname.Text = Good_Record.Rows[0]["good_name"].ToString();
             this.ddl_buyerid.SelectedIndex = -1;
         }
 
@@ -117,15 +130,6 @@ namespace Web0204.BM.WebView
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            this.ddl_GoodId.DataSource = Good_Record;
-            this.ddl_GoodId.Width = 100;
-            this.ddl_GoodId.DataValueField = "good_num";
-            this.ddl_GoodId.DataBind();
-            this.ddl_buyerid.DataSource = Buyer_Record;
-            this.ddl_buyerid.Width = 100;
-            this.ddl_buyerid.DataValueField = "buyer_id";
-            this.ddl_buyerid.DataBind();
-
             if (Request.QueryString["id"] != null)
             {
                 id = Request.QueryString["id"].ToString();
@@ -139,11 +143,53 @@ namespace Web0204.BM.WebView
             {
                 this.txt_datetime.Text = DateTime.Now.ToString("yyyyMMdd");
             }
+            if (!IsPostBack)
+            {
+                this.ddl_GoodId.DataSource = Good_Record;
+                this.ddl_GoodId.Width = 100;
+                this.ddl_GoodId.DataValueField = "good_num";
+                this.ddl_GoodId.DataBind();
+                this.ddl_buyerid.DataSource = Buyer_Record;
+                this.ddl_buyerid.Width = 100;
+                this.ddl_buyerid.DataValueField = "buyer_id";
+                this.ddl_buyerid.DataBind();
+
+                StockProvider provider = new StockProvider();
+
+                DataTable table = provider.GetStocks(Convert.ToInt32(this.ddl_GoodId.SelectedValue.ToString()));
+
+                int min = 0;
+                int max = 0;
+                int sum = 0;
+                int price = 0;
+                for (int i = 0; i < table.Rows.Count; i++)
+                {
+                    sum += Convert.ToInt32(table.Rows[i]["stock_num"]);
+                    price = Convert.ToInt32(table.Rows[i]["purchase_price"]);
+                    if (i == 0)
+                    {
+                        min = max = price;
+                        continue;
+                    }
+                    
+                    if (price < min)
+                    {
+                        min = price;
+                    }
+                    else if (price > max)
+                    {
+                        max = price;
+                    }
+                }
+                this.lbl_PriceRange.Text = " 采购价格最低为：" + min.ToString() + " 最高为:" + max.ToString();
+                this.lbl_StockNum.Text = "库存还剩：" + sum.ToString();
+            }
             if (Request.QueryString["staffid"] != null)
             {
                 staffinfo_id = Convert.ToInt32(Request.QueryString["staffid"].ToString());
             }
             this.txt_datetime.Enabled = false;
+            this.txt_goodname.Enabled = false;
             this.account.Text = GetAccout(); //Session["LOGINED"].ToString();
             this.datetime.Text = this.BindDayWeek();
         }
@@ -218,6 +264,53 @@ namespace Web0204.BM.WebView
                     }
                     break;
             }
+        }
+         protected void ddl_GoodId_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Good good = new Good();
+            GoodProvider provider = new GoodProvider();
+            String good_name = "";
+            good.Good_Num = this.ddl_GoodId.SelectedValue.ToString();
+
+            DataTable table = provider.Select(good);
+
+            if (table != null && table.Rows.Count == 1)
+            {
+                good_name = table.Rows[0]["good_name"].ToString();
+            }
+
+            StockProvider provider1 = new StockProvider();
+
+            table = provider1.GetStocks(Convert.ToInt32(this.ddl_GoodId.SelectedValue.ToString()));
+
+            int min = 0;
+            int max = 0;
+            int sum = 0;
+            int price = 0;
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                sum += Convert.ToInt32(table.Rows[i]["stock_num"]);
+                price = Convert.ToInt32(table.Rows[i]["purchase_price"]);
+                if (i == 0)
+                {
+                    min = max = price;
+                    continue;
+                }
+
+                if (price < min)
+                {
+                    min = price;
+                }
+                else if (price > max)
+                {
+                    max = price;
+                }
+            }
+            this.lbl_PriceRange.Text = " 采购价格最低为：" + min.ToString() + " 最高为:" + max.ToString();
+            this.lbl_StockNum.Text = "库存还剩：" + sum.ToString();
+
+            this.txt_goodname.Text = good_name;
+            this.txt_goodname.Enabled = false;
         }
     }
 }

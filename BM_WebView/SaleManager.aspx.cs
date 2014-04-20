@@ -21,30 +21,21 @@ namespace Web0204.BM.WebView
         /// <summary>
         ///  绑定Users信息的数据源
         /// </summary>
-        private void BindSource(int start, int goodId)
+        private void BindSource(int start, int goodId, int yearmonth)
         {
-            if (goodId != 0)
-            {
-                Sale sale = new Sale();
-                sale.Good_Id = goodId;
-  
-                SaleProvider provider = new SaleProvider();
-                DataTable table = provider.Select(sale, start, this.ListPager1.PageSize);
-                this.GridView1.DataSource = table.DefaultView;
-                this.GridView1.DataBind();
-            }
-            else
-            {
-                SaleProvider provider = new SaleProvider();
-                DataTable table = provider.GetAll(start, this.ListPager1.PageSize);
-                this.GridView1.DataSource = table.DefaultView;
-                this.GridView1.DataBind();
-            }
+            Sale sale = new Sale();
+            sale.Good_Id = goodId;
+            sale.Year_Month = yearmonth;
+
+            SaleProvider provider = new SaleProvider();
+            DataTable table = provider.Select1(sale, start, this.ListPager1.PageSize);
+            this.GridView1.DataSource = table.DefaultView;
+            this.GridView1.DataBind();
         }
 
-        private void BindSource(int goodId)
+        private void BindSource(int goodId, int yearmonth)
         {
-            this.BindSource(this.ListPager1.CurrentPageIndex * this.ListPager1.PageSize, goodId);
+            this.BindSource(this.ListPager1.CurrentPageIndex * this.ListPager1.PageSize, goodId, yearmonth);
         }
 
         #endregion
@@ -55,8 +46,7 @@ namespace Web0204.BM.WebView
             {
                 SaleProvider provider = new SaleProvider();
                 this.ListPager1.RecordCount = provider.GetSize();
-                this.BindSource(0, 0);
-                this.btn_add.Enabled = false;
+                this.BindSource(0, 0, 0);
             }
             this.account.Text = Session["LOGINED"].ToString();
             this.datetime.Text = this.BindDayWeek();
@@ -65,84 +55,31 @@ namespace Web0204.BM.WebView
 
         void ListPager1_PageChange(object sender, PageEventArgs e)
         {
-            if (this.txt_Name.Text == "")
-            {
-                this.BindSource(e.StartRecord, 0);
-            }
-            else
-            {
-                this.BindSource(e.StartRecord, Convert.ToInt32(this.txt_Name.Text));
-            }
-        }
 
-        protected void btn_add_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("SalePage.aspx");
-        }
+            int good_id = 0;
+            int yearmonth = 0;
 
-        protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
-            int rowIndex = Convert.ToInt32(e.CommandArgument);
+            if (this.txt_Name.Text != "")
+                good_id = Convert.ToInt32(this.txt_Name.Text);
+            if (this.txt_Yearmonth.Text != "")
+                yearmonth = Convert.ToInt32(this.txt_Yearmonth.Text);
 
-            if (e.CommandName.Equals("details"))
-            {
-                Response.Redirect("SalePage.aspx?id=" + this.GridView1.DataKeys[rowIndex].Value.ToString());
-            }
-        }
-
-        protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                if (e.Row.RowState == DataControlRowState.Normal
-                   || e.Row.RowState == DataControlRowState.Alternate)
-                {
-                    //当鼠标停留时更改背景色
-                    e.Row.Attributes.Add("onmouseover", "c=this.style.backgroundColor;this.style.backgroundColor='#00A9FF'");
-                    //当鼠标移开时还原背景色
-                    e.Row.Attributes.Add("onmouseout", "this.style.backgroundColor=c");
-
-                    //((LinkButton)e.Row.Cells[8].Controls[0]).Attributes.Add("onclick", "javascript:return confirm('您确定要删除采购编号:" + e.Row.Cells[1].Text + " 的信息吗?')");
-                }
-            }
-        }
-
-        protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
-        {
-            int rowIndex = e.RowIndex;
-
-            Sale sale = new Sale();
-            sale.Sale_Id = Convert.ToInt32(this.GridView1.DataKeys[rowIndex].Value);
-
-            SaleProvider provider = new SaleProvider();
-            if (provider.Delete(sale))
-            {
-                this.Alert("删除成功!!!");
-
-                if (this.txt_Name.Text == "")
-                {
-                    this.ListPager1.RecordCount = this.ListPager1.RecordCount - 1;
-                    this.BindSource(0);
-                }
-                else
-                {
-                    this.ListPager1.RecordCount = this.ListPager1.RecordCount - 1;
-                    this.BindSource(Convert.ToInt32(this.txt_Name.Text));
-                }
-
-            }
+            this.BindSource(e.StartRecord, good_id, yearmonth);
         }
 
         protected void btn_Result_Click(object sender, EventArgs e)
         {
             Sale sale = new Sale();
-            if (this.txt_Name.Text == "")
-                sale.Good_Id = 0;
-            else
+            sale.Good_Id = 0;
+            sale.Year_Month = 0;
+            if (this.txt_Name.Text != "")
                 sale.Good_Id = Convert.ToInt32(this.txt_Name.Text);
+            if (this.txt_Yearmonth.Text != "")
+                sale.Year_Month = Convert.ToInt32(this.txt_Yearmonth.Text);
+
             SaleProvider provider = new SaleProvider();
             this.ListPager1.RecordCount = provider.GetSize(sale);
-            this.BindSource(0, sale.Good_Id);
+            this.BindSource(0, sale.Good_Id, sale.Year_Month);
             this.ListPager1.PageChange += new PagerEventHandler(ListPager1_PageChange);
         }
     }

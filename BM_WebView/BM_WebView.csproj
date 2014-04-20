@@ -137,6 +137,8 @@
     <Content Include="GoodPriceManager.aspx" />
     <Content Include="GoodPricePage.aspx" />
     <Content Include="ChartManager.aspx" />
+    <Content Include="PurchaseRecordDetails.aspx" />
+    <Content Include="SaleRecordDetails.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GoodManager.aspx.cs">
@@ -380,6 +382,20 @@
     </Compile>
     <Compile Include="ChartManager.aspx.designer.cs">
       <DependentUpon>ChartManager.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PurchaseRecordDetails.aspx.cs">
+      <DependentUpon>PurchaseRecordDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PurchaseRecordDetails.aspx.designer.cs">
+      <DependentUpon>PurchaseRecordDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SaleRecordDetails.aspx.cs">
+      <DependentUpon>SaleRecordDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SaleRecordDetails.aspx.designer.cs">
+      <DependentUpon>SaleRecordDetails.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

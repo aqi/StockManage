@@ -26,13 +26,57 @@ namespace Web0204.BM.WebView
         /// </summary>
         private void BindSource(Stock stock, int start)
         {
-            DataTable table;
+            DataTable table = new DataTable();
+            int index = this.ddl_QueryCategory.SelectedIndex;
+            this.GridView1.Columns[3].Visible = true;
+            this.GridView1.Columns[4].Visible = true;
+            this.GridView1.Columns[5].Visible = true;
+            this.GridView1.Columns[6].Visible = true;
+            this.GridView1.Columns[7].Visible = true;
 
             StockProvider provider = new StockProvider();
-            table = provider.SelectRec(stock, start, this.ListPager1.PageSize);
+
+            switch (index)
+            {
+                case 0:
+                    table = provider.SelectRec(stock, start, this.ListPager1.PageSize);
+                    break;
+                case 1:
+                    table = provider.SelectRecPurchase(stock, start, this.ListPager1.PageSize);
+                    break;
+                case 2:
+                    table = provider.SelectRecSale(stock, start, this.ListPager1.PageSize);
+                    break;
+            }
+ 
 
             this.GridView1.DataSource = table.DefaultView;
             this.GridView1.DataBind();
+
+            switch (index)
+            {
+                case 0:
+                    this.GridView1.Columns[3].Visible = true;
+                    this.GridView1.Columns[4].Visible = true;
+                    this.GridView1.Columns[5].Visible = true;
+                    this.GridView1.Columns[7].Visible = false;
+                    this.GridView1.Columns[6].Visible = false;
+                    break;
+                case 1:
+                    this.GridView1.Columns[3].Visible = false;
+                    this.GridView1.Columns[4].Visible = false;
+                    this.GridView1.Columns[5].Visible = false;
+                    this.GridView1.Columns[6].Visible = true;
+                    this.GridView1.Columns[7].Visible = false;
+                    break;
+                case 2:
+                    this.GridView1.Columns[3].Visible = false;
+                    this.GridView1.Columns[4].Visible = false;
+                    this.GridView1.Columns[5].Visible = false;
+                    this.GridView1.Columns[6].Visible = false;
+                    this.GridView1.Columns[7].Visible = true;
+                    break;
+            }
         }
 
         private void BindSource(Stock stock)
@@ -50,31 +94,12 @@ namespace Web0204.BM.WebView
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (user_id == 0)
-            {
-                user_id = Convert.ToInt32(Session["USERID"].ToString());
-            }
-
-            if (user_manage == 0)
-            {
-                user_manage = Convert.ToInt32(Session["USERMANAGE"].ToString());
-            }
-
-            if (staffinfo_id == 0)
-            {
-                StaffProvider provider = new StaffProvider();
-
-                staffinfo_id = provider.GetStaffinfoId(user_id);
-            }
-
             if (!IsPostBack)
             {
                 StockProvider provider = new StockProvider();
                 
                 this.ListPager1.RecordCount = provider.GetSize();
                 this.BindSource(0);
-
-                this.GridView1.Columns[7].Visible = false;
 
 
             }
@@ -99,65 +124,14 @@ namespace Web0204.BM.WebView
             }
         }
 
-        protected void btn_add_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("StockPage.aspx");
-        }
 
-        protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
-            int rowIndex = Convert.ToInt32(e.CommandArgument);
-
-            if (e.CommandName.Equals("details"))
-            {
-                Response.Redirect("StockPage.aspx?id=" + this.GridView1.DataKeys[rowIndex].Value.ToString());
-            }
-            
-        }
-
-        protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                if (e.Row.RowState == DataControlRowState.Normal
-                   || e.Row.RowState == DataControlRowState.Alternate)
-                {
-                    //当鼠标停留时更改背景色
-                    e.Row.Attributes.Add("onmouseover", "c=this.style.backgroundColor;this.style.backgroundColor='#00A9FF'");
-                    //当鼠标移开时还原背景色
-                    e.Row.Attributes.Add("onmouseout", "this.style.backgroundColor=c");
-
-                    ((LinkButton)e.Row.Cells[6].Controls[0]).Attributes.Add("onclick", "javascript:return confirm('您确定要删除员工:" + e.Row.Cells[1].Text + " 的这条库存数据吗?')");
-                }
-            }
-        }
-
-        protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
-        {
-            int rowIndex = e.RowIndex;
-
-            Stock stock = new Stock();
-            stock.Stock_Id = Convert.ToInt32(this.GridView1.DataKeys[rowIndex].Value);
-
-            StockProvider provider = new StockProvider();
-            if (provider.Delete(stock))
-            {
-                this.Alert("删除成功!!!");
-
-                stock.Stock_Id = 0;
-                if (this.txt_Position.Text != "")
-                {
-                    stock.Good_Id = Convert.ToInt32(this.txt_Position.Text.ToString());
-                }
-                this.ListPager1.RecordCount = this.ListPager1.RecordCount - 1;
-                this.BindSource(stock);
-            }
-        }
 
         protected void btn_Result_Click(object sender, EventArgs e)
         {
             Stock stock = new Stock();
+            int index = 0;
 
+            stock.Good_Id = 0;
             if (this.txt_Position.Text != "")
             {
                 stock.Good_Id = Convert.ToInt32(txt_Position.Text.ToString());

@@ -2,3 +2,8 @@ C:\Users\yingqi\Desktop\08web(2)第四组(诚信)\08web(2)第四组(诚信)\程�
 C:\Users\yingqi\Desktop\08web(2)第四组(诚信)\08web(2)第四组(诚信)\程序版本2（最终版本）\08web2_clothing\BM_DAL\bin\Debug\BM_DAL.pdb
 C:\Users\yingqi\Desktop\08web(2)第四组(诚信)\08web(2)第四组(诚信)\程序版本2（最终版本）\08web2_clothing\BM_DAL\obj\Debug\BM_DAL.dll
 C:\Users\yingqi\Desktop\08web(2)第四组(诚信)\08web(2)第四组(诚信)\程序版本2（最终版本）\08web2_clothing\BM_DAL\obj\Debug\BM_DAL.pdb
+C:\Users\Administrator\Desktop\web\finally\08web2_clothing\BM_DAL\bin\Debug\BM_DAL.dll
+C:\Users\Administrator\Desktop\web\finally\08web2_clothing\BM_DAL\bin\Debug\BM_DAL.pdb
+C:\Users\Administrator\Desktop\web\finally\08web2_clothing\BM_DAL\obj\Debug\BM_DAL.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\web\finally\08web2_clothing\BM_DAL\obj\Debug\BM_DAL.dll
+C:\Users\Administrator\Desktop\web\finally\08web2_clothing\BM_DAL\obj\Debug\BM_DAL.pdb

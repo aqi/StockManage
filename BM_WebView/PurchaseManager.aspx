@@ -93,16 +93,21 @@ body {
         <br />
         <asp:Label ID="lbl_Name" runat="server" Text="根据商品编号查询:" Font-Size="12px"></asp:Label>
         <asp:TextBox ID="txt_Name" runat="server"></asp:TextBox>
-         <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="txt_Name"
-            ErrorMessage="商品编号格式为‘000000...’！" ValidationExpression="\d*"></asp:RegularExpressionValidator>
-
+        &nbsp;
+        <asp:Label ID="lbl_Yearmonth" runat="server" Text="根据月份查询:" Font-Size="12px"></asp:Label>
+        <asp:TextBox ID="txt_Yearmonth" MaxLength="6" runat="server"></asp:TextBox>
         <asp:Button ID="btn_Result" runat="server" OnClick="btn_Result_Click" Text="查 询" Font-Size="12px" />
         &nbsp;
-        <asp:Button ID="btn_add" runat="server" OnClick="btn_add_Click" Text="添加记录" Font-Size="12px" />
-        &nbsp;&nbsp;<br />
+        <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="txt_Name"
+            ErrorMessage="商品编号格式为‘000000...’！" ValidationExpression="\d*"></asp:RegularExpressionValidator>
+         <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txt_Yearmonth"
+            ErrorMessage="月份格式为‘201301’！" ValidationExpression="\d\d\d\d\d\d"></asp:RegularExpressionValidator>
+   
+        <br />
+
         <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" CellPadding="4"
-            DataKeyNames="purchase_id" ForeColor="#333333" GridLines="Both" OnRowCommand="GridView1_RowCommand"
-            OnRowDataBound="GridView1_RowDataBound" OnRowDeleting="GridView1_RowDeleting" Width="100%" style="font-size: 12px">
+            DataKeyNames="purchase_id" ForeColor="#333333" GridLines="Both" 
+            Width="100%" style="font-size: 12px">
             <RowStyle BackColor="#EFF3FB" />
             <Columns>
                 <asp:BoundField DataField="purchase_id" HeaderText="采购单号" />

@@ -25,3 +25,12 @@ C:\Users\Administrator\Desktop\网站毕业设计\程序版本2（最终版本�
 C:\Users\Administrator\Desktop\网站毕业设计\程序版本2（最终版本）\08web2_clothing\BM_BLL\obj\Debug\BM_BLL.csprojResolveAssemblyReference.cache
 C:\Users\Administrator\Desktop\网站毕业设计\程序版本2（最终版本）\08web2_clothing\BM_BLL\obj\Debug\BM_BLL.dll
 C:\Users\Administrator\Desktop\网站毕业设计\程序版本2（最终版本）\08web2_clothing\BM_BLL\obj\Debug\BM_BLL.pdb
+C:\Users\Administrator\Desktop\web\finally\08web2_clothing\BM_BLL\bin\Debug\BM_BLL.dll
+C:\Users\Administrator\Desktop\web\finally\08web2_clothing\BM_BLL\bin\Debug\BM_BLL.pdb
+C:\Users\Administrator\Desktop\web\finally\08web2_clothing\BM_BLL\bin\Debug\BM_DAL.dll
+C:\Users\Administrator\Desktop\web\finally\08web2_clothing\BM_BLL\bin\Debug\BM_Info.dll
+C:\Users\Administrator\Desktop\web\finally\08web2_clothing\BM_BLL\bin\Debug\BM_DAL.pdb
+C:\Users\Administrator\Desktop\web\finally\08web2_clothing\BM_BLL\bin\Debug\BM_Info.pdb
+C:\Users\Administrator\Desktop\web\finally\08web2_clothing\BM_BLL\obj\Debug\BM_BLL.dll
+C:\Users\Administrator\Desktop\web\finally\08web2_clothing\BM_BLL\obj\Debug\BM_BLL.pdb
+C:\Users\Administrator\Desktop\web\finally\08web2_clothing\BM_BLL\obj\Debug\BM_BLL.csprojResolveAssemblyReference.cache

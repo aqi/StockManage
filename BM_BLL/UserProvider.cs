@@ -48,7 +48,7 @@ namespace Web0204.BM.BLL
             if (table != null && table.Rows.Count == 1)
             {
                 MaileSend mailSend = new MaileSend();
-                mailSend.SendMail(table.Rows[0]["user_email"].ToString());
+                //mailSend.SendMail(table.Rows[0]["user_email"].ToString());
                 return true;
             }
             return false;

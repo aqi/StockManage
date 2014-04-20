@@ -10,7 +10,7 @@
 namespace Web0204.BM.WebView {
     
     
-    public partial class StockRecordManager {
+    public partial class SaleRecordDetails {
         
         /// <summary>
         /// form1 控件。
@@ -47,51 +47,6 @@ namespace Web0204.BM.WebView {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::Web0204.BM.WebView.Manager Manager1;
-        
-        /// <summary>
-        /// lbl_Position 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbl_Position;
-        
-        /// <summary>
-        /// txt_Position 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_Position;
-        
-        /// <summary>
-        /// lbl_QueryCategory 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbl_QueryCategory;
-        
-        /// <summary>
-        /// ddl_QueryCategory 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddl_QueryCategory;
-        
-        /// <summary>
-        /// btn_Result 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn_Result;
         
         /// <summary>
         /// GridView1 控件。

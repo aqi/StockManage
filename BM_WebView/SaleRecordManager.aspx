@@ -92,29 +92,31 @@ body {
     </td>
     <td style="width: 516px; font-size: 12px;" valign="top">
         <br />
-        <asp:Label ID="lbl_Position" runat="server" Text="根据员工姓名查询:"></asp:Label>
+        <asp:Label ID="lbl_Position" runat="server" Text="根据销售单号查询:"></asp:Label>
         <asp:TextBox ID="txt_Position" runat="server" Font-Size="12px"></asp:TextBox>
+        <asp:Label ID="lbl_Yearmonth" runat="server" Text="根据月份查询:"></asp:Label>
+        <asp:TextBox ID="txt_Yearmonth" runat="server" Font-Size="12px"></asp:TextBox>
         <asp:Button ID="btn_Result" runat="server" OnClick="btn_Result_Click" Text="查 询" Font-Size="12px" />
         &nbsp;
         <asp:Button ID="btn_add" runat="server" OnClick="btn_add_Click" Text="添加记录" Font-Size="12px" /><br />
+        <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="txt_Position"
+            ErrorMessage="销售单号格式为‘000000...’！" ValidationExpression="\d*"></asp:RegularExpressionValidator>
+         <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txt_Yearmonth"
+            ErrorMessage="月份格式为‘201301’！" ValidationExpression="\d\d\d\d\d\d"></asp:RegularExpressionValidator>
         <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" CellPadding="4"
-            ForeColor="#333333" GridLines="Both" DataKeyNames="sale_id" OnRowCommand="GridView1_RowCommand" OnRowDataBound="GridView1_RowDataBound" OnRowDeleting="GridView1_RowDeleting" Width="100%">
+            ForeColor="#333333" GridLines="Both" OnRowCommand="GridView1_RowCommand" OnRowDataBound="GridView1_RowDataBound" OnRowDeleting="GridView1_RowDeleting" Width="100%">
             <RowStyle BackColor="#EFF3FB" />
             <Columns>
-
-                <asp:BoundField DataField="staffinfo_id" HeaderText="员工编号" />
-                <asp:BoundField DataField="staffinfo_name" HeaderText="姓名" />
-                <asp:BoundField DataField="staffinfo_cell" HeaderText="手机" />
+                <asp:BoundField DataField="sale_id" HeaderText="销售单号" />
                 <asp:BoundField DataField="good_id" HeaderText="商品编号" />
-                <asp:BoundField DataField="sale_num" HeaderText="数量" />
-                <asp:BoundField DataField="sale_price" HeaderText="单价" />
-                <asp:BoundField DataField="sum" HeaderText="总价" />
+                <asp:BoundField DataField="good_name" HeaderText="商品名称" />
                 <asp:BoundField DataField="purchase_price" HeaderText="采购单价" />
+                <asp:BoundField DataField="sale_price" HeaderText="销售单价" />
+                <asp:BoundField DataField="sale_num" HeaderText="数量" />
+                <asp:BoundField DataField="sum" HeaderText="总价" />
                 <asp:BoundField DataField="sale_datetime" HeaderText="操作时间" />
-                <asp:BoundField DataField="sale_id" HeaderText="采购商编号" />
-                <asp:ButtonField CommandName="details" Text="修改" />
+                <asp:ButtonField CommandName="details" Text="详细信息" />
                 <asp:CommandField ShowDeleteButton="True" />
-                <asp:BoundField DataField="sale_id" HeaderText="1"/>
             </Columns>
         </asp:GridView>
         &nbsp;

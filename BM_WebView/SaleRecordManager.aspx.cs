@@ -24,29 +24,34 @@ namespace Web0204.BM.WebView
         /// <summary>
         ///  绑定Staff信息的数据源
         /// </summary>
-        private void BindSource(Staff staff, int start)
+        private void BindSource(Sale sale, int start)
         {
             DataTable table;
 
             SaleProvider provider = new SaleProvider();
-            table = provider.SelectRec(staff, start, this.ListPager1.PageSize);
+            table = provider.SelectRec(sale, start, this.ListPager1.PageSize);
 
             this.GridView1.DataSource = table.DefaultView;
             this.GridView1.DataBind();
 
             for (int i = 0; i < this.GridView1.Rows.Count; i++)
             {
-                if (Convert.ToInt32(this.GridView1.Rows[i].Cells[3].Text) == 0)
+                if (this.GridView1.Rows[i].Cells[3].Text.ToString() == "&nbsp;")
                 {
-                    this.GridView1.Rows[i].Cells[10].Enabled = false;
-                    this.GridView1.Rows[i].Cells[11].Enabled = false;
+                    this.GridView1.Rows[i].Cells[8].Enabled = false;
+                    this.GridView1.Rows[i].Cells[9].Enabled = false;
+                }
+                else if (Convert.ToInt32(this.GridView1.Rows[i].Cells[3].Text.ToString()) == 0)
+                {
+                    this.GridView1.Rows[i].Cells[8].Enabled = false;
+                    this.GridView1.Rows[i].Cells[9].Enabled = false;
                 }
             }
         }
 
-        private void BindSource(Staff staff)
+        private void BindSource(Sale sale)
         {
-            this.BindSource(staff, this.ListPager1.CurrentPageIndex * this.ListPager1.PageSize);
+            this.BindSource(sale, this.ListPager1.CurrentPageIndex * this.ListPager1.PageSize);
         }
 
         #endregion
@@ -72,38 +77,37 @@ namespace Web0204.BM.WebView
 
             if (!IsPostBack)
             {
-                PurchaseProvider provider = new PurchaseProvider();
+                SaleProvider provider = new SaleProvider();
+                Sale sale = new Sale();
 
-                Staff staff = new Staff();
-
-                staff.User_id = user_id;
-                staff.Role_Manage = user_manage;
+                this.GridView1.DataKeyNames = new string[] { "sale_id", "staffinfo_id", "buyer_id" };
+                
+                if (user_manage == 0)
+                    sale.Staffinfo_Id = staffinfo_id;
                 
                 this.ListPager1.RecordCount = provider.GetSize();
-                this.BindSource(staff, 0);
+                this.BindSource(sale, 0);
 
             }
             this.account.Text = GetAccout();//Session["LOGINED"].ToString();
             this.datetime.Text = this.BindDayWeek();
             this.ListPager1.PageChange += new PagerEventHandler(ListPager1_PageChange);
-            this.GridView1.Columns[12].Visible = false;
         }
 
         void ListPager1_PageChange(object sender, PageEventArgs e)
         {
-            Staff staff = new Staff();
+            Sale sale = new Sale();
 
-            staff.Role_Manage = user_manage;
+            if (user_manage == 0)
+                sale.Staffinfo_Id = staffinfo_id;
+            sale.Sale_Id = 0;
+            sale.Year_Month = 0;
 
-            if (this.txt_Position.Text == "")
-            {
-                this.BindSource(staff, e.StartRecord);
-            }
-            else
-            {
-                staff.Staffinfo_Name = "%" + this.txt_Position.Text + "%";
-                this.BindSource(staff, e.StartRecord);               
-            }
+            if (this.txt_Position.Text != "")
+                sale.Sale_Id = Convert.ToInt32(this.txt_Position.Text);
+            if (this.txt_Yearmonth.Text != "")
+                sale.Year_Month = Convert.ToInt32(this.txt_Yearmonth.Text);
+            this.BindSource(sale, e.StartRecord);
         }
 
         protected void btn_add_Click(object sender, EventArgs e)
@@ -117,7 +121,8 @@ namespace Web0204.BM.WebView
 
             if (e.CommandName.Equals("details"))
             {
-                Response.Redirect("SalePage.aspx?id=" + this.GridView1.DataKeys[rowIndex].Value.ToString());
+                Response.Redirect("SaleRecordDetails.aspx?id=" + this.GridView1.DataKeys[rowIndex]["sale_id"].ToString());
+                //Response.Redirect("SaleRecordDetails.aspx?id=" + this.GridView1.DataKeys[rowIndex]["staffinfo_id"].ToString() + "&buyer_id=" + this.GridView1.DataKeys[rowIndex]["buyer_id"].ToString());
             }
             
         }
@@ -134,7 +139,7 @@ namespace Web0204.BM.WebView
                     //当鼠标移开时还原背景色
                     e.Row.Attributes.Add("onmouseout", "this.style.backgroundColor=c");
 
-                    ((LinkButton)e.Row.Cells[11].Controls[0]).Attributes.Add("onclick", "javascript:return confirm('您确定要删除员工:" + e.Row.Cells[1].Text + " 的这条销售数据吗?')");
+                    ((LinkButton)e.Row.Cells[9].Controls[0]).Attributes.Add("onclick", "javascript:return confirm('您确定要删除销售单号:" + e.Row.Cells[0].Text + " 的数据吗?')");
                 }
             }
         }
@@ -151,31 +156,37 @@ namespace Web0204.BM.WebView
             {
                 this.Alert("删除成功!!!");
 
-                Staff staff = new Staff();
-                staff.Role_Manage = user_manage;
-                staff.User_id = user_id;
- 
+                if (user_manage == 0)
+                    sale.Staffinfo_Id = staffinfo_id;
+                sale.Sale_Id = 0;
+                sale.Year_Month = 0;
+
                 if (this.txt_Position.Text != "")
-                {
-                    staff.Staffinfo_Name = "%" + this.txt_Position.Text + "%";
-                }
+                    sale.Sale_Id = Convert.ToInt32(this.txt_Position.Text);
+                if (this.txt_Yearmonth.Text != "")
+                    sale.Year_Month = Convert.ToInt32(this.txt_Yearmonth.Text);
+
                 this.ListPager1.RecordCount = this.ListPager1.RecordCount - 1;
-                this.BindSource(staff);
+                this.BindSource(sale);
             }
         }
 
         protected void btn_Result_Click(object sender, EventArgs e)
         {
-            Staff staff=new Staff();
-            staff.User_id = user_id;
-            staff.Role_Manage = user_manage;
+            Sale sale = new Sale();
+            if (user_manage == 0)
+                sale.Staffinfo_Id = staffinfo_id;
+            sale.Sale_Id = 0;
+            sale.Year_Month = 0;
+
             if (this.txt_Position.Text != "")
-            {
-                staff.Staffinfo_Name = "%" + this.txt_Position.Text + "%";
-            }
-            PurchaseProvider provider = new PurchaseProvider();
+                sale.Sale_Id = Convert.ToInt32(this.txt_Position.Text);
+            if (this.txt_Yearmonth.Text != "")
+                sale.Year_Month = Convert.ToInt32(this.txt_Yearmonth.Text);
+
+            SaleProvider provider = new SaleProvider();
             this.ListPager1.RecordCount = provider.GetSize();
-            this.BindSource(staff,0);
+            this.BindSource(sale, 0);
             this.ListPager1.PageChange += new PagerEventHandler(ListPager1_PageChange);
         }
     }
