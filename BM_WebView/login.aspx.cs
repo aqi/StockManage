@@ -38,6 +38,7 @@ namespace Web0204.BM.WebView
             if (result)
             {
                 Session["LOGINED"] = this.txt_name.Text;
+                Session["PASSWORD"] = user.User_pass;
 
                 Users user1 = new Users();
                 user1.User_account = Session["LOGINED"].ToString();

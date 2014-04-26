@@ -15,7 +15,7 @@ namespace Web0204.BM.WebView
 {
     public partial class SalePage : PageBase
     {
-
+        private int stock_sum;
         private string id;
         private int staffinfo_id;
         private int purchase_price;
@@ -124,6 +124,7 @@ namespace Web0204.BM.WebView
             this.txt_num.Text = "";
             this.txt_goodname.Text = Good_Record.Rows[0]["good_name"].ToString();
             this.ddl_buyerid.SelectedIndex = -1;
+            
         }
 
         #endregion
@@ -183,6 +184,7 @@ namespace Web0204.BM.WebView
                 }
                 this.lbl_PriceRange.Text = " 采购价格最低为：" + min.ToString() + " 最高为:" + max.ToString();
                 this.lbl_StockNum.Text = "库存还剩：" + sum.ToString();
+                stock_sum = sum;
             }
             if (Request.QueryString["staffid"] != null)
             {
@@ -240,13 +242,17 @@ namespace Web0204.BM.WebView
 
                         stock.Stock_Num = sales.Sale_Num;
                         stock.Good_Id = sales.Good_Id;
+                        stock.Stock_Oper = -1;
+                        stock.Staffinfo_Id = sales.Staffinfo_Id;
                         stock.Purchase_Price = sales.Purchase_Price;
                         stock.Purchase_Datetime = DateTime.Now.ToString("yyyyMMdd");
 
-                        if (stockProvider.UpdateNum(stock))
+                        if (stockProvider.Insert(stock))
                         {
                             this.Alert("添加成功!!!");
                             this.TextCancel();
+                            stock_sum -= Convert.ToInt32(sales.Sale_Num);
+                            this.lbl_StockNum.Text = "库存还剩：" + stock_sum.ToString();
                         }
                     }
                     break;

@@ -92,6 +92,12 @@ body {
     </td>
     <td style="width: 516px; font-size: 12px;" valign="top">
         <br />
+                  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+         <input type="button" value="返 回"  onclick='history.go(-<%= (int)ViewState["back_no"] %>)'>
+        <br />
         <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" CellPadding="4"
             ForeColor="#333333" GridLines="Both" Width="100%">
             <RowStyle BackColor="#EFF3FB" />

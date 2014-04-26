@@ -97,6 +97,18 @@ body {
         <asp:TextBox ID="txt_staffinfo_cell" runat="server" MaxLength="11"></asp:TextBox>
         <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="txt_staffinfo_cell"
             ErrorMessage="手机号码必须是十一位数字！" ValidationExpression="\d{11}"></asp:RegularExpressionValidator><br />
+        <asp:Label ID="lbl_OldPass" runat="server" Text="旧密码："></asp:Label>
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        <asp:TextBox ID="txt_OldPass" TextMode="Password"  runat="server" ></asp:TextBox>
+        <br />
+        <asp:Label ID="lbl_NewPass" runat="server" Text="新密码："></asp:Label>
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
+        <asp:TextBox ID="txt_NewPass" TextMode="Password" runat="server" ></asp:TextBox>
+        <br />
+        <asp:Label ID="lbl_NewPassConfirm" runat="server" Text="密码确认："></asp:Label>
+        &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+        <asp:TextBox ID="txt_NewPassConfirm" TextMode="Password"  runat="server" ></asp:TextBox>
+        <br />
         <asp:Label ID="lbl_staffinfo_sex" runat="server" Text="性别："></asp:Label>
         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
         <asp:DropDownList ID="ddl_sex" runat="server">

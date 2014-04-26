@@ -96,6 +96,8 @@ body {
         <asp:TextBox ID="txt_Position" runat="server" Font-Size="12px"></asp:TextBox>
         <asp:Label ID="lbl_Yearmonth" runat="server" Text="根据月份查询:"></asp:Label>
         <asp:TextBox ID="txt_Yearmonth" runat="server" Font-Size="12px"></asp:TextBox>
+        <asp:Label ID="lbl_Name" runat="server" Text="根据姓名查询:" Font-Size="12px"></asp:Label>
+        <asp:TextBox ID="txt_Name" runat="server"></asp:TextBox>
         <asp:Button ID="btn_Result" runat="server" OnClick="btn_Result_Click" Text="查 询" Font-Size="12px" />
         &nbsp;
         <asp:Button ID="btn_add" runat="server" OnClick="btn_add_Click" Text="添加记录" Font-Size="12px" />

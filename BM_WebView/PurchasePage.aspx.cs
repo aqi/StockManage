@@ -196,6 +196,8 @@ namespace Web0204.BM.WebView
 
                         stock.Stock_Num = purchases.Purchase_Num;
                         stock.Good_Id = purchases.Good_Id;
+                        stock.Stock_Oper = 1;
+                        stock.Staffinfo_Id = purchases.Staffinfo_Id;
                         stock.Purchase_Price = purchases.Purchase_Price;
                         stock.Purchase_Datetime = DateTime.Now.ToString("yyyyMMdd");
 

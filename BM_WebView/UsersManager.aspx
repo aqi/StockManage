@@ -104,7 +104,7 @@ body {
             <Columns>
                 <asp:BoundField DataField="role_name" HeaderText="角色名称" />
                 <asp:BoundField DataField="user_name" HeaderText="用户名称" />
-                <asp:BoundField DataField="user_manage" HeaderText="经理" />
+                <asp:BoundField DataField="manage" HeaderText="经理" />
                 <asp:BoundField DataField="user_phone" HeaderText="电话" />
                 <asp:BoundField DataField="user_fax" HeaderText="传真" />
                 <asp:BoundField DataField="user_email" HeaderText="邮件" />

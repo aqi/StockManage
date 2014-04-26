@@ -81,9 +81,12 @@ namespace Web0204.BM.WebView
                 Sale sale = new Sale();
 
                 this.GridView1.DataKeyNames = new string[] { "sale_id", "staffinfo_id", "buyer_id" };
-                
+
                 if (user_manage == 0)
+                {
                     sale.Staffinfo_Id = staffinfo_id;
+                    this.txt_Name.Enabled = false;
+                }
                 
                 this.ListPager1.RecordCount = provider.GetSize();
                 this.BindSource(sale, 0);
@@ -183,7 +186,11 @@ namespace Web0204.BM.WebView
                 sale.Sale_Id = Convert.ToInt32(this.txt_Position.Text);
             if (this.txt_Yearmonth.Text != "")
                 sale.Year_Month = Convert.ToInt32(this.txt_Yearmonth.Text);
-
+            if (this.txt_Name.Text != "")
+            {
+                StaffProvider provider1 = new StaffProvider();
+                sale.Staffinfo_Id = provider1.GetStaffinfoId(this.txt_Name.Text.ToString());
+            }
             SaleProvider provider = new SaleProvider();
             this.ListPager1.RecordCount = provider.GetSize();
             this.BindSource(sale, 0);

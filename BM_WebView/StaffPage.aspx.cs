@@ -30,6 +30,9 @@ namespace Web0204.BM.WebView
             this.txt_staffinfo_name.Text = table.Rows[0]["staffinfo_name"].ToString();
             this.txt_staffinfo_cell.Text = table.Rows[0]["staffinfo_cell"].ToString();
             this.ddl_sex.SelectedValue = table.Rows[0]["staffinfo_sex"].ToString();
+            this.txt_NewPass.Text = "";
+            this.txt_NewPassConfirm.Text = "";
+            this.txt_OldPass.Text = "";
         }
 /*
         private int IsSame()
@@ -73,6 +76,9 @@ namespace Web0204.BM.WebView
             this.txt_staffinfo_name.Text = "";
             this.ddl_sex.SelectedValue = "男";
             this.txt_staffinfo_cell.Text = "";
+            this.txt_NewPass.Text = "";
+            this.txt_NewPassConfirm.Text = "";
+            this.txt_OldPass.Text = "";
         }
 
         #endregion
@@ -102,9 +108,39 @@ namespace Web0204.BM.WebView
             Response.Redirect("StaffManager.aspx");
         }
 
+        private bool check_pass()
+        {
+            if (this.txt_OldPass.Text == "" && (this.txt_NewPass.Text != "" || this.txt_NewPassConfirm.Text != ""))
+            {
+                return false;
+            }
+            else if (this.txt_OldPass.Text == "")
+            {
+                return true;
+            }
+
+            if (this.txt_OldPass.Text.ToString() != Session["PASSWORD"].ToString())
+            {
+                return false;
+            }
+
+            if (this.txt_NewPass.Text == "")
+            {
+                return false;
+            }
+
+            if (this.txt_NewPass.Text.ToString() != this.txt_NewPassConfirm.Text.ToString())
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         protected void btn_sure_Click(object sender, EventArgs e)
         {
             Staff staff = this.AddStaff();
+
             StaffProvider provider = new StaffProvider();
             switch (this.OperationFlag)
             {
@@ -120,11 +156,34 @@ namespace Web0204.BM.WebView
                     }
                     break;
                 case Operation.Update:
+                    if (!check_pass())
+                    {
+                        this.Alert("密码修改格式有问题");
+                        break;
+                    }
+
                     if (provider.Update(staff))
                     {
-                        this.Alert("修改成功!!!");
-                        this.BindText();
+                        if (this.txt_NewPassConfirm.Text != "")
+                        {
+                            UserProvider provider1 = new UserProvider();
+                            if (provider1.UpdatePassWord(Convert.ToInt32(Session["USERID"].ToString()), this.txt_NewPassConfirm.Text.ToString()))
+                            {
+                                Session["PASSWORD"] = this.txt_NewPassConfirm.Text.ToString();
+                                this.Alert("修改成功!!!");
+                                this.BindText();
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            this.Alert("修改成功!!!");
+                            this.BindText();
+                            break;
+                        }
                     }
+                    this.Alert("修改失败!!!!");
+                    this.BindText();
                     break;
             }
         }

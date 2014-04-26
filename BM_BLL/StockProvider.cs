@@ -29,8 +29,10 @@ namespace Web0204.BM.BLL
 
             try
             {
-                string commandText = "INSERT INTO t_stock VALUES(@good_id,@stock_num,"+
-                                    "@purchase_price,@purchase_datetime)";
+                string commandText = "INSERT INTO t_stock (good_id,stock_num,stock_oper," + 
+                    "staffinfo_id,purchase_price, purchase_datetime) VALUES (@good_id,@stock_num,"+
+                    "@stock_oper,@staffinfo_id,@purchase_price,@purchase_datetime)";
+
                 DataParameter parmGoodId = new DataParameter();
                 parmGoodId.ParameterName = "@good_id";
                 parmGoodId.DbType = DbType.Int32;
@@ -40,6 +42,16 @@ namespace Web0204.BM.BLL
                 parmStockNum.ParameterName = "@stock_num";
                 parmStockNum.DbType = DbType.String;
                 parmStockNum.Value = stock.Stock_Num;
+
+                DataParameter parmStockOper = new DataParameter();
+                parmStockOper.ParameterName = "@stock_oper";
+                parmStockOper.DbType = DbType.Int32;
+                parmStockOper.Value = stock.Stock_Oper;
+
+                DataParameter parmStaffinfoId = new DataParameter();
+                parmStaffinfoId.ParameterName = "@staffinfo_id";
+                parmStaffinfoId.DbType = DbType.Int32;
+                parmStaffinfoId.Value = stock.Staffinfo_Id;
 
                 DataParameter parmPurchasePrice = new DataParameter();
                 parmPurchasePrice.ParameterName = "@purchase_price";
@@ -54,6 +66,8 @@ namespace Web0204.BM.BLL
                 IList parameters = new ArrayList();
                 parameters.Add(parmGoodId);
                 parameters.Add(parmStockNum);
+                parameters.Add(parmStockOper);
+                parameters.Add(parmStaffinfoId);
                 parameters.Add(parmPurchasePrice);
                 parameters.Add(parmPurchaseDatetime);
 
@@ -373,9 +387,11 @@ namespace Web0204.BM.BLL
         /// <returns></returns>
         public DataTable GetStocks(int goodid)
         {
-            string commandText = "SELECT stock_num,purchase_price from t_stock where" +
-                " good_id = @good_id order by purchase_price ASC";
-
+            //string commandText = "SELECT stock_num,purchase_price from t_stock where" +
+            //    " good_id = @good_id order by purchase_price ASC";
+            StringBuilder commandText = new StringBuilder();
+            commandText.Append("select SUM(convert(int,stock_num) * stock_oper)stock_num, purchase_price " + 
+                "from t_stock where good_id=@good_id group by good_id,purchase_price order by purchase_price ASC");
             IList parameters = new ArrayList();
 
             DataParameter parmID = new DataParameter();
@@ -384,7 +400,7 @@ namespace Web0204.BM.BLL
             parmID.Value = goodid;
             parameters.Add(parmID);
 
-            return this.handler.Query(commandText, parameters);
+            return this.handler.Query(commandText.ToString(), parameters);
         }
 
         #endregion

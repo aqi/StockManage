@@ -437,6 +437,29 @@ namespace Web0204.BM.BLL
             }
         }
 
+        public int GetStaffinfoId(string name)
+        {
+            string commandText = "select staffinfo_id FROM t_staff WHERE staffinfo_name=@staffinfo_name";
+
+            DataParameter parmID = new DataParameter();
+            parmID.ParameterName = "@staffinfo_name";
+            parmID.DbType = DbType.String;
+            parmID.Value = name;
+
+            IList parameters = new ArrayList();
+            parameters.Add(parmID);
+
+            DataTable table = this.handler.Query(commandText, parameters);
+            if (table != null && table.Rows.Count == 1)
+            {
+                return Convert.ToInt32(table.Rows[0]["staffinfo_id"].ToString());
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
         #endregion 
     }
 }

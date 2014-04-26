@@ -55,7 +55,9 @@ namespace Web0204.BM.WebView
                     staffinfo_id = Convert.ToInt32(Request.QueryString["staffinfo_id"].ToString());
                 }
                 this.BindSource(sale_id,staffinfo_id, supplier_id);
+                ViewState["back_no"] = 0; //隐藏的窗体字段ViewState，是页面级的
             }
+            ViewState["back_no"] = Convert.ToInt32(ViewState["back_no"]) + 1;
             this.account.Text = GetAccout();
             this.datetime.Text = this.BindDayWeek();
         }

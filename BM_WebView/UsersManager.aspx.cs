@@ -38,7 +38,7 @@ namespace Web0204.BM.WebView
                 //    user.Role_id = prvResponse - 20;
                 //}
                 UserProvider provider = new UserProvider();
-                DataTable table = provider.Select(user, start, this.ListPager1.PageSize);
+                DataTable table = provider.SelectStaff(user, start, this.ListPager1.PageSize);
                 this.GridView1.DataSource = table.DefaultView;
                 this.GridView1.DataBind();
             }
@@ -83,7 +83,7 @@ namespace Web0204.BM.WebView
             string manage = provider.GetUserManage(Session["LOGINED"].ToString()) == 1 ? "经理" : "普通员工";
             */
 
-            string manage = "";
+          string manage = "";
             this.account.Text = Session["LOGINED"].ToString() + manage;
             this.datetime.Text = this.BindDayWeek();
             this.ListPager1.PageChange += new PagerEventHandler(ListPager1_PageChange);

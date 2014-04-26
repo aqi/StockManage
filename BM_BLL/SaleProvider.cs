@@ -416,6 +416,7 @@ namespace Web0204.BM.BLL
                 parmYearMonth.Value = sale.Year_Month;
                 parameters.Add(parmYearMonth);
             }
+
             commandText.Append(" union all select ");
 
             if (sale.Sale_Id != 0 && sale.Year_Month != 0)

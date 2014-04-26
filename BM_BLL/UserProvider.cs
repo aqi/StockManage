@@ -48,7 +48,7 @@ namespace Web0204.BM.BLL
             if (table != null && table.Rows.Count == 1)
             {
                 MaileSend mailSend = new MaileSend();
-                //mailSend.SendMail(table.Rows[0]["user_email"].ToString());
+                mailSend.SendMail(table.Rows[0]["user_email"].ToString());
                 return true;
             }
             return false;
@@ -230,6 +230,40 @@ namespace Web0204.BM.BLL
             return this.handler.ExecuteCommand(commandText, parameters);
         }
 
+        /// <summary>
+        /// 修改用户密码
+        /// </summary>
+        /// <param name="userId">用户ID</param>
+        /// <param name="newPassWord">新密码</param>
+        /// <returns>修改成功返回true,否则返回false</returns>
+        public bool UpdatePassWord(int userId, string newPassWord)
+        {
+            if (userId == 0 || newPassWord == "")
+            {
+                return false;
+            }
+
+            string commandText = " UPDATE  t_users " +
+                                  " SET user_pass=@user_pass  " +
+                                     " WHERE user_id=@user_id ";
+
+            DataParameter parmID = new DataParameter();
+            parmID.ParameterName = "@user_id";
+            parmID.DbType = DbType.Int32;
+            parmID.Value = userId;
+
+            DataParameter parmPass = new DataParameter();
+            parmPass.ParameterName = "@user_pass";
+            parmPass.DbType = DbType.String;
+            parmPass.Value = newPassWord;
+
+            IList parameters = new ArrayList();
+            parameters.Add(parmID);
+            parameters.Add(parmPass);
+
+            return this.handler.ExecuteCommand(commandText, parameters);
+        }
+
         #endregion
 
         #region --- Select方法 ---
@@ -244,6 +278,10 @@ namespace Web0204.BM.BLL
             return this.Select(user, 0, 0);
         }
 
+        public DataTable SelectStaff(Users user)
+        {
+            return this.SelectStaff(user, 0, 0);
+        }
         /// <summary>
         /// 利用分页机制,根据指定的过滤条件查询用户信息
         /// </summary>
@@ -360,6 +398,51 @@ namespace Web0204.BM.BLL
             return this.handler.Query(commandText.ToString(), parameters, start, max);
         }
 
+        /// <summary>
+        /// 利用分页机制,根据指定的过滤条件查询用户信息
+        /// </summary>
+        /// <param name="product">过滤条件</param>
+        /// <param name="start">起始行</param>
+        /// <param name="max">获取记录行的总数</param>
+        /// <returns></returns>
+        public DataTable SelectStaff(Users user, int start, int max)
+        {
+            StringBuilder commandText = new StringBuilder();
+            //commandText.Append("SELECT * FROM t_users users,t_role roles WHERE users.role_id=roles.role_id");
+            commandText.Append("SELECT users.*,roles.*, '是' manage FROM t_users users,t_role roles WHERE" + 
+                " users.role_id=roles.role_id and users.user_manage = 1 "); 
+
+            IList parameters = new ArrayList();
+
+
+            if (!String.IsNullOrEmpty(user.User_name))
+            {
+                commandText.Append(" AND user_name like @user_name ");
+
+                DataParameter parmName = new DataParameter();
+                parmName.ParameterName = "@user_name";
+                parmName.DbType = DbType.String;
+                parmName.Value = user.User_name;
+                parameters.Add(parmName);
+            }
+            commandText.Append(" union all SELECT users1.*,roles1.*, '否' manage FROM t_users users1,t_role roles1 " + 
+                            "WHERE users1.role_id=roles1.role_id and users1.user_manage = 0 ");
+            if (!String.IsNullOrEmpty(user.User_name))
+            {
+                commandText.Append(" AND users1.user_name like @user_name1 ");
+
+                DataParameter parmName = new DataParameter();
+                parmName.ParameterName = "@user_name1";
+                parmName.DbType = DbType.String;
+                parmName.Value = user.User_name;
+                parameters.Add(parmName);
+            }
+            
+            commandText.Append("order by users.role_id,users.user_manage DESC,users.user_name");
+
+            return this.handler.Query(commandText.ToString(), parameters, start, max);
+        }
+
         #endregion
 
         #region --- GetAll方法 ---
@@ -381,8 +464,13 @@ namespace Web0204.BM.BLL
         /// <returns></returns>
         public DataTable GetAll(int start, int max)
         {
-            string commandText = "SELECT * FROM t_users users,t_role roles WHERE " +
-                "users.role_id=roles.role_id order by users.role_id,users.user_manage DESC,users.user_name";
+            //string commandText = "SELECT * FROM t_users users,t_role roles WHERE " +
+             //   "users.role_id=roles.role_id order by users.role_id,users.user_manage DESC,users.user_name";
+            string commandText = "SELECT users.*,roles.*, '是' manage FROM t_users users,t_role roles " + 
+                "WHERE users.role_id=roles.role_id and users.user_manage = 1 " + 
+                "union all SELECT users1.*,roles1.*, '否' manage FROM t_users users1,t_role roles1 " + 
+                "WHERE users1.role_id=roles1.role_id and users1.user_manage = 0 " + 
+                "order by users.role_id,users.user_manage DESC,users.user_name";
             return this.handler.Query(commandText, start, max);
         }
 
