@@ -124,7 +124,7 @@ namespace Web0204.BM.BLL
 
             }
 
-            if (!String.IsNullOrEmpty(freight.Freight_name))
+            if ( false == String.IsNullOrEmpty(freight.Freight_name))
             {
                 commandText.Append(" AND freight_name like @freight_name ");
 

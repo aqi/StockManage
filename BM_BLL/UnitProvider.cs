@@ -124,7 +124,7 @@ namespace Web0204.BM.BLL
 
             }
 
-            if (!String.IsNullOrEmpty(unit.Unit_name))
+            if ( false == String.IsNullOrEmpty(unit.Unit_name))
             {
                 commandText.Append(" AND unit_name like @unit_name ");
 

@@ -12,7 +12,7 @@ namespace Web0204.BM.Info
     {
         private int sale_id;
 
-        private int good_id;
+        private string good_id;
 
         private string good_name;
 
@@ -48,7 +48,7 @@ namespace Web0204.BM.Info
         /// <summary>
         /// 设置或返回商品编号
         /// </summary>
-        public int Good_Id
+        public string Good_Id
         {
             set
             {

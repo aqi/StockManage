@@ -198,10 +198,10 @@ namespace Web0204.BM.BLL
         public DataTable Select(Supplier supplier, int start, int max)
         {
             StringBuilder commandText = new StringBuilder();
-            commandText.Append("SELECT * FROM t_Supplier suppliers WHERE 1 = 1");
+            commandText.Append("SELECT *, ('S' + right('000000' + convert(varchar(8), supplier_id), 7)) supplier_bh FROM t_Supplier suppliers WHERE 1 = 1");
             IList parameters = new ArrayList();
 
-            if (!String.IsNullOrEmpty(supplier.Supplier_Name))
+            if ( false == String.IsNullOrEmpty(supplier.Supplier_Name))
             {
                 commandText.Append(" And supplier_name like @supplier_name ");
 
@@ -212,7 +212,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmName);
             }
 
-            if (!String.IsNullOrEmpty(supplier.Supplier_Phone))
+            if ( false == String.IsNullOrEmpty(supplier.Supplier_Phone))
             {
                 commandText.Append(" AND supplier_phone=@supplier_phone ");
 
@@ -223,7 +223,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmPhone);
             }
 
-            if (!String.IsNullOrEmpty(supplier.Supplier_Fax))
+            if ( false == String.IsNullOrEmpty(supplier.Supplier_Fax))
             {
                 commandText.Append(" AND supplier_fax=@supplier_fax ");
 
@@ -234,7 +234,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmFax);
             }
 
-            if (!String.IsNullOrEmpty(supplier.Supplier_Email))
+            if ( false == String.IsNullOrEmpty(supplier.Supplier_Email))
             {
                 commandText.Append(" AND supplier_email=@supplier_email ");
 
@@ -258,7 +258,7 @@ namespace Web0204.BM.BLL
         /// <returns></returns>
         public DataTable GetAll()
         {
-            string commandText = "SELECT * FROM t_supplier";
+            string commandText = "SELECT *,('S' + right('000000' + convert(varchar(8), supplier_id), 7)) supplier_bh  FROM t_supplier";
             return this.handler.Query(commandText);
         }
         /// <summary>
@@ -269,7 +269,7 @@ namespace Web0204.BM.BLL
         /// <returns></returns>
         public DataTable GetAll(int start, int max)
         {
-            string commandText = "SELECT * FROM t_supplier ";
+            string commandText = "SELECT *,('S' + right('000000' + convert(varchar(8), supplier_id), 7)) supplier_bh FROM t_supplier ";
             return this.handler.Query(commandText, start, max);
         }
 

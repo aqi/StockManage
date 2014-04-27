@@ -189,7 +189,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmGood);
             }
 
-            if (!String.IsNullOrEmpty(warehouse.Warehouse_type))
+            if ( false == String.IsNullOrEmpty(warehouse.Warehouse_type))
             {
                 commandText.Append(" AND warehouse_type=@warehouse_type ");
 

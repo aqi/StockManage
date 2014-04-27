@@ -327,7 +327,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmManageID);
             }
 
-            if (!String.IsNullOrEmpty(user.User_name))
+            if ( false == String.IsNullOrEmpty(user.User_name))
             {
                 commandText.Append(" AND user_name like @user_name ");
 
@@ -338,7 +338,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmName);
             }
 
-            if (!String.IsNullOrEmpty(user.User_phone))
+            if ( false == String.IsNullOrEmpty(user.User_phone))
             {
                 commandText.Append(" AND user_phone=@user_phone ");
 
@@ -349,7 +349,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmPhone);
             }
 
-            if (!String.IsNullOrEmpty(user.User_fax))
+            if ( false == String.IsNullOrEmpty(user.User_fax))
             {
                 commandText.Append(" AND user_fax=@user_fax ");
 
@@ -360,7 +360,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmFax);
             }
 
-            if (!String.IsNullOrEmpty(user.User_email))
+            if ( false == String.IsNullOrEmpty(user.User_email))
             {
                 commandText.Append(" AND user_email=@user_email ");
 
@@ -371,7 +371,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmEmail);
             }
 
-            if (!String.IsNullOrEmpty(user.User_account))
+            if ( false == String.IsNullOrEmpty(user.User_account))
             {
                 commandText.Append(" AND user_account=@user_account ");
 
@@ -382,7 +382,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmAccount);
             }
 
-            if (!String.IsNullOrEmpty(user.User_pass))
+            if (false == String.IsNullOrEmpty(user.User_pass))
             {
                 commandText.Append(" AND user_pass=@user_pass ");
 
@@ -415,7 +415,7 @@ namespace Web0204.BM.BLL
             IList parameters = new ArrayList();
 
 
-            if (!String.IsNullOrEmpty(user.User_name))
+            if ( false == String.IsNullOrEmpty(user.User_name))
             {
                 commandText.Append(" AND user_name like @user_name ");
 
@@ -427,7 +427,7 @@ namespace Web0204.BM.BLL
             }
             commandText.Append(" union all SELECT users1.*,roles1.*, '·ñ' manage FROM t_users users1,t_role roles1 " + 
                             "WHERE users1.role_id=roles1.role_id and users1.user_manage = 0 ");
-            if (!String.IsNullOrEmpty(user.User_name))
+            if ( false == String.IsNullOrEmpty(user.User_name))
             {
                 commandText.Append(" AND users1.user_name like @user_name1 ");
 

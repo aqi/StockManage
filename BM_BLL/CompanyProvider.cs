@@ -267,7 +267,7 @@ namespace Web0204.BM.BLL
 
             }
 
-            if (!String.IsNullOrEmpty(company.Company_nation))
+            if ( false == String.IsNullOrEmpty(company.Company_nation))
             {
                 commandText.Append(" AND company_nation=@company_nation ");
 
@@ -278,7 +278,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmNation);
             }
 
-            if (!String.IsNullOrEmpty(company.Company_pro))
+            if ( false == String.IsNullOrEmpty(company.Company_pro))
             {
                 commandText.Append(" AND company_pro=@company_pro ");
 
@@ -289,7 +289,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmPro);
             }
 
-            if (!String.IsNullOrEmpty(company.Company_city))
+            if ( false == String.IsNullOrEmpty(company.Company_city))
             {
                 commandText.Append(" AND company_city=@company_city ");
 
@@ -300,7 +300,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmCity);
             }
 
-            if (!String.IsNullOrEmpty(company.Company_name))
+            if ( false == String.IsNullOrEmpty(company.Company_name))
             {
                 commandText.Append(" AND company_name like @company_name ");
 
@@ -311,7 +311,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmName);
             }
 
-            if (!String.IsNullOrEmpty(company.Company_address))
+            if ( false == String.IsNullOrEmpty(company.Company_address))
             {
                 commandText.Append(" AND company_address=@company_address ");
 
@@ -322,7 +322,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmAddress);
             }
 
-            if (!String.IsNullOrEmpty(company.Company_postcode))
+            if ( false == String.IsNullOrEmpty(company.Company_postcode))
             {
                 commandText.Append(" AND company_postcode=@company_postcode ");
 
@@ -333,7 +333,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmPostcode);
             }
 
-            if (!String.IsNullOrEmpty(company.Company_cell))
+            if ( false == String.IsNullOrEmpty(company.Company_cell))
             {
                 commandText.Append(" AND company_cell=@company_cell ");
 
@@ -344,7 +344,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmCell);
             }
 
-            if (!String.IsNullOrEmpty(company.Company_phone))
+            if ( false == String.IsNullOrEmpty(company.Company_phone))
             {
                 commandText.Append(" AND company_phone=@company_phone ");
 
@@ -355,7 +355,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmPhone);
             }
 
-            if (!String.IsNullOrEmpty(company.Company_fax))
+            if ( false == String.IsNullOrEmpty(company.Company_fax))
             {
                 commandText.Append(" AND company_fax=@company_fax ");
 
@@ -366,7 +366,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmFax);
             }
 
-            if (!String.IsNullOrEmpty(company.Company_email))
+            if ( false == String.IsNullOrEmpty(company.Company_email))
             {
                 commandText.Append(" AND company_email=@company_email ");
 
@@ -377,7 +377,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmEmail);
             }
 
-            if (!String.IsNullOrEmpty(company.Company_manager))
+            if ( false == String.IsNullOrEmpty(company.Company_manager))
             {
                 commandText.Append(" AND company_manager=@company_manager ");
 

@@ -211,7 +211,7 @@ namespace Web0204.BM.BLL
 
             }
 
-            if (!String.IsNullOrEmpty(contract.Contrac__num))
+            if ( false == String.IsNullOrEmpty(contract.Contrac__num))
             {
                 commandText.Append(" AND contrac_num like @contrac_num ");
 
@@ -233,7 +233,7 @@ namespace Web0204.BM.BLL
 
             }
 
-            if (!String.IsNullOrEmpty(contract.Contrac_state))
+            if ( false == String.IsNullOrEmpty(contract.Contrac_state))
             {
                 commandText.Append(" AND contrac_state like @contrac_state ");
                 DataParameter parmState = new DataParameter();
@@ -303,7 +303,7 @@ namespace Web0204.BM.BLL
             commandText.Append("SELECT Count(contrac_id) FROM t_contract WHERE 1=1 ");
             IList parameters = new ArrayList();
 
-            if (!String.IsNullOrEmpty(contract.Contrac__num))
+            if ( false == String.IsNullOrEmpty(contract.Contrac__num))
             {
                 commandText.Append(" AND contrac_num like @contrac_num ");
 
@@ -314,7 +314,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmNum);
             }
 
-            if (!String.IsNullOrEmpty(contract.Contrac_state))
+            if ( false == String.IsNullOrEmpty(contract.Contrac_state))
             {
                 commandText.Append(" AND contrac_state like @contrac_state ");
                 DataParameter parmState = new DataParameter();

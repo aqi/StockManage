@@ -233,7 +233,7 @@ namespace Web0204.BM.BLL
                 }
             }
 
-            if (!String.IsNullOrEmpty(staff.Staffinfo_Name))
+            if ( false == String.IsNullOrEmpty(staff.Staffinfo_Name))
             {
                 commandText.Append(" AND staffs.staffinfo_name like @staffinfo_name ");
 
@@ -244,7 +244,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmPosition);
             }
 
-            if (!String.IsNullOrEmpty(staff.Staffinfo_position))
+            if ( false == String.IsNullOrEmpty(staff.Staffinfo_position))
             {
                 commandText.Append(" AND staffs.staffinfo_position like @staffinfo_position ");
 
@@ -255,7 +255,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmPosition);
             }
 
-            if (!String.IsNullOrEmpty(staff.Staffinfo_cell))
+            if ( false == String.IsNullOrEmpty(staff.Staffinfo_cell))
             {
                 commandText.Append(" AND staffs.staffinfo_cell=@staffinfo_cell ");
 
@@ -266,7 +266,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmCell);
             }
 
-            if (!String.IsNullOrEmpty(staff.Staffinfo_sex))
+            if ( false == String.IsNullOrEmpty(staff.Staffinfo_sex))
             {
                 commandText.Append(" AND staffs.staffinfo_sex=@staffinfo_sex ");
 

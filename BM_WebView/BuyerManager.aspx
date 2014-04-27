@@ -102,7 +102,7 @@ body {
             OnRowDataBound="GridView1_RowDataBound" OnRowDeleting="GridView1_RowDeleting" Width="100%" style="font-size: 12px">
             <RowStyle BackColor="#EFF3FB" />
             <Columns>
-                <asp:BoundField DataField="buyer_id" HeaderText="采购商编号" />
+                <asp:BoundField DataField="buyer_bh" HeaderText="采购商编号" />
                 <asp:BoundField DataField="buyer_name" HeaderText="采购商名称" />
                 <asp:BoundField DataField="buyer_address" HeaderText="采购商地址" />
                 <asp:BoundField DataField="buyer_postcode" HeaderText="邮编" />
@@ -113,6 +113,7 @@ body {
                 <asp:BoundField DataField="buyer_liaison" HeaderText="联系人" />
                 <asp:ButtonField CommandName="details" Text="修改" />
                 <asp:CommandField ShowDeleteButton="True" />
+                <asp:BoundField DataField="buyer_id" HeaderText="采购商编号" Visible="false"/>
             </Columns>
             <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
             <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />

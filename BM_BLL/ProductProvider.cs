@@ -125,7 +125,7 @@ namespace Web0204.BM.BLL
 
             }
 
-            if (!String.IsNullOrEmpty(product.Product_name))
+            if ( false == String.IsNullOrEmpty(product.Product_name))
             {
                 commandText.Append(" AND product_name like  @product_name ");
 

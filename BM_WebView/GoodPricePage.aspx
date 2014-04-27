@@ -92,8 +92,6 @@ body {
         
         <asp:Label ID="lbl_Num" runat="server" Text="产品编号："></asp:Label>
         <asp:TextBox ID="txt_Num" runat="server"></asp:TextBox>
-        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txt_Num"
-            ErrorMessage="产品编号格式为：000..." ValidationExpression="\d*"></asp:RegularExpressionValidator>
         <br />
         &nbsp;<asp:Label ID="lbl_Name" runat="server" Text="产品名称："></asp:Label>
         <asp:TextBox ID="txt_Name" runat="server"></asp:TextBox>

@@ -198,7 +198,7 @@ namespace Web0204.BM.BLL
         public DataTable Select(Buyer buyer, int start, int max)
         {
             StringBuilder commandText = new StringBuilder();
-            commandText.Append("SELECT * FROM t_Buyer buyers WHERE 1 = 1");
+            commandText.Append("SELECT *,('P' + right('000000' + convert(varchar(8), buyer_id), 7)) buyer_bh FROM t_Buyer buyers WHERE 1 = 1");
             IList parameters = new ArrayList();
 
             if (buyer.Buyer_Id != 0)
@@ -212,7 +212,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmID);
             }
 
-            if (!String.IsNullOrEmpty(buyer.Buyer_Name))
+            if ( false == String.IsNullOrEmpty(buyer.Buyer_Name))
             {
                 commandText.Append(" And buyer_name like @buyer_name ");
 
@@ -223,7 +223,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmName);
             }
 
-            if (!String.IsNullOrEmpty(buyer.Buyer_Phone))
+            if ( false == String.IsNullOrEmpty(buyer.Buyer_Phone))
             {
                 commandText.Append(" AND buyer_phone=@buyer_phone ");
 
@@ -234,7 +234,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmPhone);
             }
 
-            if (!String.IsNullOrEmpty(buyer.Buyer_Fax))
+            if ( false == String.IsNullOrEmpty(buyer.Buyer_Fax))
             {
                 commandText.Append(" AND buyer_fax=@buyer_fax ");
 
@@ -245,7 +245,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmFax);
             }
 
-            if (!String.IsNullOrEmpty(buyer.Buyer_Email))
+            if ( false == String.IsNullOrEmpty(buyer.Buyer_Email))
             {
                 commandText.Append(" AND buyer_email=@buyer_email ");
 
@@ -269,7 +269,7 @@ namespace Web0204.BM.BLL
         /// <returns></returns>
         public DataTable GetAll()
         {
-            string commandText = "SELECT * FROM t_buyer";
+            string commandText = "SELECT *,('P' + right('000000' + convert(varchar(8), buyer_id), 7)) buyer_bh FROM t_buyer";
             return this.handler.Query(commandText);
         }
         /// <summary>
@@ -280,7 +280,7 @@ namespace Web0204.BM.BLL
         /// <returns></returns>
         public DataTable GetAll(int start, int max)
         {
-            string commandText = "SELECT * FROM t_buyer ";
+            string commandText = "SELECT *,('P' + right('000000' + convert(varchar(8), buyer_id), 7)) buyer_bh FROM t_buyer ";
             return this.handler.Query(commandText, start, max);
         }
 

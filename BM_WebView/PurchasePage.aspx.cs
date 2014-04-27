@@ -74,14 +74,7 @@ namespace Web0204.BM.WebView
                 purchase.Staffinfo_Id = staffinfo_id;
             }
             
-            if (this.ddl_GoodId.SelectedValue.ToString() == "")
-            {
-                purchase.Good_Id = 0;
-            }
-            else
-            {
-                purchase.Good_Id = Convert.ToInt32(this.ddl_GoodId.SelectedValue.ToString());
-            }
+            purchase.Good_Id = this.ddl_GoodId.SelectedValue.ToString();
             purchase.Purchase_Datetime = DateTime.Now.ToString("yyyyMMdd");//Convert.ToDateTime( DateTime.Now.ToString("HH:mm:ss"));
             purchase.Purchase_Price= this.txt_price.Text;
             purchase.Purchase_Num = this.txt_num.Text;
@@ -92,7 +85,9 @@ namespace Web0204.BM.WebView
             }
             else
             {
-                purchase.Supplier_Id = Convert.ToInt32(this.ddl_supplierid.SelectedValue.ToString());
+                string value = this.ddl_supplierid.SelectedValue.ToString();
+                value = value.Substring(1);
+                purchase.Supplier_Id = Convert.ToInt32(value);//Convert.ToInt32(this.ddl_supplierid.SelectedValue.ToString());
             }
             purchase.Year_Month = Convert.ToInt32(purchase.Purchase_Datetime.Substring(0, 6));
 
@@ -135,7 +130,7 @@ namespace Web0204.BM.WebView
                 this.ddl_GoodId.DataBind();
                 this.ddl_supplierid.DataSource = Supplier_Record;
                 this.ddl_supplierid.Width = 100;
-                this.ddl_supplierid.DataValueField = "supplier_id";
+                this.ddl_supplierid.DataValueField = "supplier_bh";
                 this.ddl_supplierid.DataBind();
 
                 this.lbl_PriceRange.Text ="采购范围：" +  Good_Record.Rows[0]["purchase_priceMin"].ToString() + " - " + Good_Record.Rows[0]["purchase_priceMax"].ToString();
@@ -170,7 +165,7 @@ namespace Web0204.BM.WebView
             switch (this.OperationFlag)
             {
                 case Operation.Add:
-                    if (purchases.Good_Id == 0)
+                    if (purchases.Good_Id == "")
                     {
                         this.Alert("商品编号没设置，添加失败!!!");
                         break;
@@ -209,7 +204,7 @@ namespace Web0204.BM.WebView
                     }
                     break;
                 case Operation.Update:
-                    if (purchases.Good_Id == 0)
+                    if ( false == String.IsNullOrEmpty(purchases.Good_Id))
                     {
                         this.Alert("参数错误，修改失败!!!");
                         break;

@@ -97,9 +97,7 @@ body {
         <asp:Label ID="lbl_Yearmonth" runat="server" Text="根据月份查询:" Font-Size="12px"></asp:Label>
         <asp:TextBox ID="txt_Yearmonth" MaxLength="6" runat="server"></asp:TextBox>
         <asp:Button ID="btn_Result" runat="server" OnClick="btn_Result_Click" Text="查 询" Font-Size="12px" />
-        <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="txt_Name"
-            ErrorMessage="商品编号格式为‘000000...’！" ValidationExpression="\d*"></asp:RegularExpressionValidator>
-         <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txt_Yearmonth"
+        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txt_Yearmonth"
             ErrorMessage="月份格式为‘201301’！" ValidationExpression="\d\d\d\d\d\d"></asp:RegularExpressionValidator>
         &nbsp;
         <br />
@@ -117,7 +115,7 @@ body {
                 <asp:BoundField DataField="sale_total" HeaderText="销售总价" />
                 <asp:BoundField DataField="sale_profit" HeaderText="利润" />
                 <asp:BoundField DataField="sale_datetime" HeaderText="销售时间" />
-                <asp:BoundField DataField="buyer_id" HeaderText="采购商编号" />
+                <asp:BoundField DataField="buyer_bh" HeaderText="采购商编号" />
             </Columns>
             <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
             <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />

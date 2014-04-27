@@ -292,7 +292,7 @@ namespace Web0204.BM.BLL
 
             }
 
-            if (!String.IsNullOrEmpty(customer.Customers_code))
+            if ( false == String.IsNullOrEmpty(customer.Customers_code))
             {
                 commandText.Append(" AND customers_code=@customers_code ");
 
@@ -303,7 +303,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmCode);
             }
 
-            if (!String.IsNullOrEmpty(customer.Customers_region))
+            if ( false == String.IsNullOrEmpty(customer.Customers_region))
             {
                 commandText.Append(" AND customers_region=@customers_region ");
 
@@ -314,7 +314,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmRegion);
             }
 
-            if (!String.IsNullOrEmpty(customer.Customers_name))
+            if ( false == String.IsNullOrEmpty(customer.Customers_name))
             {
                 commandText.Append(" AND customers_name like @customers_name ");
 
@@ -325,7 +325,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmName);
             }
 
-            if (!String.IsNullOrEmpty(customer.Customers_type))
+            if ( false == String.IsNullOrEmpty(customer.Customers_type))
             {
                 commandText.Append(" AND customers_type=@customers_type ");
 
@@ -336,7 +336,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmType);
             }
 
-            if (!String.IsNullOrEmpty(customer.Customers_address))
+            if ( false == String.IsNullOrEmpty(customer.Customers_address))
             {
                 commandText.Append(" AND customers_address=@customers_address ");
 
@@ -347,7 +347,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmAddress);
             }
 
-            if (!String.IsNullOrEmpty(customer.Customers_phone))
+            if ( false == String.IsNullOrEmpty(customer.Customers_phone))
             {
                 commandText.Append(" AND customers_phone=@customers_phone ");
 
@@ -358,7 +358,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmPhone);
             }
 
-            if (!String.IsNullOrEmpty(customer.Customers_telephone))
+            if ( false == String.IsNullOrEmpty(customer.Customers_telephone))
             {
                 commandText.Append(" AND customers_telephone=@customers_telephone ");
 
@@ -369,7 +369,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmTelephone);
             }
 
-            if (!String.IsNullOrEmpty(customer.Customers_fax))
+            if ( false == String.IsNullOrEmpty(customer.Customers_fax))
             {
                 commandText.Append(" AND customers_fax=@customers_fax ");
 
@@ -380,7 +380,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmFax);
             }
 
-            if (!String.IsNullOrEmpty(customer.Customers_network_address))
+            if ( false == String.IsNullOrEmpty(customer.Customers_network_address))
             {
                 commandText.Append(" AND customers_network_address=@customers_network_address ");
 
@@ -391,7 +391,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmNetWork);
             }
 
-            if (!String.IsNullOrEmpty(customer.Customers_person_one))
+            if ( false == String.IsNullOrEmpty(customer.Customers_person_one))
             {
                 commandText.Append(" AND customers_person_one=@customers_person_one ");
 
@@ -402,7 +402,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmOne);
             }
 
-            if (!String.IsNullOrEmpty(customer.Customers_person_one_cell))
+            if ( false == String.IsNullOrEmpty(customer.Customers_person_one_cell))
             {
                 commandText.Append(" AND customers_person_one_cell=@customers_person_one_cell ");
 
@@ -413,7 +413,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmOneCell);
             }
 
-            if (!String.IsNullOrEmpty(customer.Customers_person_one_email))
+            if ( false == String.IsNullOrEmpty(customer.Customers_person_one_email))
             {
                 commandText.Append(" AND customers_person_one_email=@customers_person_one_email ");
 
@@ -424,7 +424,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmOneEmail);
             }
 
-            if (!String.IsNullOrEmpty(customer.Customers_person_two))
+            if ( false == String.IsNullOrEmpty(customer.Customers_person_two))
             {
                 commandText.Append(" AND customers_person_two=@customers_person_two ");
 
@@ -435,7 +435,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmTwo);
             }
 
-            if (!String.IsNullOrEmpty(customer.Customers_person_two_cell))
+            if ( false == String.IsNullOrEmpty(customer.Customers_person_two_cell))
             {
                 commandText.Append(" AND customers_person_two_cell=@customers_person_two_cell ");
 
@@ -446,7 +446,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmTwoCell);
             }
 
-            if (!String.IsNullOrEmpty(customer.Customers_person_two_email))
+            if ( false == String.IsNullOrEmpty(customer.Customers_person_two_email))
             {
                 commandText.Append(" AND customers_person_two_email=@customers_person_two_email ");
 

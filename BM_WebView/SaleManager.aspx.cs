@@ -21,7 +21,7 @@ namespace Web0204.BM.WebView
         /// <summary>
         ///  绑定Users信息的数据源
         /// </summary>
-        private void BindSource(int start, int goodId, int yearmonth, int staffinfoId)
+        private void BindSource(int start, string goodId, int yearmonth, int staffinfoId)
         {
             Sale sale = new Sale();
             sale.Good_Id = goodId;
@@ -34,7 +34,7 @@ namespace Web0204.BM.WebView
             this.GridView1.DataBind();
         }
 
-        private void BindSource(int goodId, int yearmonth, int staffinfoId)
+        private void BindSource(string goodId, int yearmonth, int staffinfoId)
         {
             this.BindSource(this.ListPager1.CurrentPageIndex * this.ListPager1.PageSize, goodId, yearmonth, staffinfoId);
         }
@@ -47,7 +47,7 @@ namespace Web0204.BM.WebView
             {
                 SaleProvider provider = new SaleProvider();
                 this.ListPager1.RecordCount = provider.GetSize();
-                this.BindSource(0, 0, 0);
+                this.BindSource("", 0, 0);
             }
             this.account.Text = Session["LOGINED"].ToString();
             this.datetime.Text = this.BindDayWeek();
@@ -57,15 +57,15 @@ namespace Web0204.BM.WebView
         void ListPager1_PageChange(object sender, PageEventArgs e)
         {
 
-            int good_id = 0;
+            string good_id = "";
             int yearmonth = 0;
 
             if (this.txt_Name.Text != "")
-                good_id = Convert.ToInt32(this.txt_Name.Text);
+                good_id = this.txt_Name.Text;
             if (this.txt_Yearmonth.Text != "")
                 yearmonth = Convert.ToInt32(this.txt_Yearmonth.Text);
 
-            this.BindSource(e.StartRecord, good_id, yearmonth);
+            this.BindSource(e.StartRecord, good_id, yearmonth, 0);
         }
 
         protected void btn_Result_Click(object sender, EventArgs e)
@@ -73,10 +73,10 @@ namespace Web0204.BM.WebView
             Sale sale = new Sale();
             int staffinfoId = 0;
 
-            sale.Good_Id = 0;
+            sale.Good_Id = "";
             sale.Year_Month = 0;
             if (this.txt_Name.Text != "")
-                sale.Good_Id = Convert.ToInt32(this.txt_Name.Text);
+                sale.Good_Id = this.txt_Name.Text;
             if (this.txt_Yearmonth.Text != "")
                 sale.Year_Month = Convert.ToInt32(this.txt_Yearmonth.Text);
 

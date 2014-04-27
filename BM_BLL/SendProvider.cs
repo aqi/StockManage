@@ -124,7 +124,7 @@ namespace Web0204.BM.BLL
 
             }
 
-            if (!String.IsNullOrEmpty(send.Send_name))
+            if ( false == String.IsNullOrEmpty(send.Send_name))
             {
                 commandText.Append(" AND send_name like @send_name ");
 

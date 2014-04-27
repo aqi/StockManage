@@ -247,7 +247,7 @@ namespace Web0204.BM.BLL
             commandText.Append("SELECT * FROM t_good good WHERE 1=1 ");
             IList parameters = new ArrayList();
 
-            if (!String.IsNullOrEmpty(good.Good_Num))
+            if ( false == String.IsNullOrEmpty(good.Good_Num))
             {
                 commandText.Append(" AND good_num=@good_num ");
 
@@ -269,7 +269,7 @@ namespace Web0204.BM.BLL
 
             }
 
-            if (!String.IsNullOrEmpty(good.Good_img))
+            if ( false == String.IsNullOrEmpty(good.Good_img))
             {
                 commandText.Append(" AND good_img=@good_img ");
 
@@ -280,7 +280,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmImg);
             }
 
-            if (!String.IsNullOrEmpty(good.Good_name))
+            if ( false == String.IsNullOrEmpty(good.Good_name))
             {
                 commandText.Append(" AND good_name like @good_name ");
 
@@ -350,7 +350,7 @@ namespace Web0204.BM.BLL
             commandText.Append("SELECT Count(good_id) FROM t_good WHERE 1=1 ");
             IList parameters = new ArrayList();
 
-            if (!String.IsNullOrEmpty(good.Good_name))
+            if ( false == String.IsNullOrEmpty(good.Good_name))
             {
                 commandText.Append(" AND good_name like @good_name ");
 

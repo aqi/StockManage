@@ -136,7 +136,7 @@ namespace Web0204.BM.BLL
 
             }
 
-            if (!String.IsNullOrEmpty(place.Place_num))
+            if ( false == String.IsNullOrEmpty(place.Place_num))
             {
                 commandText.Append(" AND place_num like  @place_num ");
 
@@ -147,7 +147,7 @@ namespace Web0204.BM.BLL
                 parameters.Add(parmNum);
             }
 
-            if (!String.IsNullOrEmpty(place.Place_state))
+            if ( false == String.IsNullOrEmpty(place.Place_state))
             {
                 commandText.Append(" AND place_state like  @place_state ");
 

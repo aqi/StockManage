@@ -105,7 +105,7 @@ body {
                 <asp:BoundField DataField="staffinfo_id" HeaderText="采购员工编号" />
                 <asp:BoundField DataField="staffinfo_name" HeaderText="采购员工姓名" />
                 <asp:BoundField DataField="staffinfo_cell" HeaderText="采购员工手机" />
-                <asp:BoundField DataField="supplier_id" HeaderText="供应商编号" />
+                <asp:BoundField DataField="supplier_bh" HeaderText="供应商编号" />
                 <asp:BoundField DataField="supplier_name" HeaderText="供应商名称" />
             </Columns>
         </asp:GridView>

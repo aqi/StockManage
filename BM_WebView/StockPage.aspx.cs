@@ -47,7 +47,7 @@ namespace Web0204.BM.WebView
                 stock.Stock_Id = Convert.ToInt32(id);
             }
 
-            stock.Good_Id = Convert.ToInt32(this.txt_goodid.Text);
+            stock.Good_Id = this.txt_goodid.Text;
             stock.Purchase_Datetime = DateTime.Now.ToString("yyyyMMdd"); ;//Convert.ToDateTime( DateTime.Now.ToString("HH:mm:ss"));
             stock.Purchase_Price= this.txt_price.Text;
             stock.Stock_Num = this.txt_num.Text;
@@ -105,7 +105,7 @@ namespace Web0204.BM.WebView
             switch (this.OperationFlag)
             {
                 case Operation.Add:
-                    if (stocks.Good_Id == 0)
+                    if ( false == String.IsNullOrEmpty(stocks.Good_Id))
                     {
                         this.Alert("商品编号没设置，添加失败!!!");
                         break;
@@ -121,7 +121,7 @@ namespace Web0204.BM.WebView
                     }
                     break;
                 case Operation.Update:
-                    if (stocks.Good_Id == 0)
+                    if ( false == String.IsNullOrEmpty(stocks.Good_Id))
                     {
                         this.Alert("参数错误，修改失败!!!");
                         break;

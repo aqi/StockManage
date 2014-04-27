@@ -22,7 +22,7 @@ namespace Web0204.BM.BLL
         /// <returns>添加成功返回true,否则返回false</returns>
         public bool Insert(Stock stock)
         {
-            if (stock.Good_Id == 0)
+            if (String.IsNullOrEmpty(stock.Good_Id) == true)
             {
                 return false;
             }
@@ -35,7 +35,7 @@ namespace Web0204.BM.BLL
 
                 DataParameter parmGoodId = new DataParameter();
                 parmGoodId.ParameterName = "@good_id";
-                parmGoodId.DbType = DbType.Int32;
+                parmGoodId.DbType = DbType.String;
                 parmGoodId.Value = stock.Good_Id;
 
                 DataParameter parmStockNum = new DataParameter();
@@ -110,7 +110,7 @@ namespace Web0204.BM.BLL
 
             DataParameter parmGoodId = new DataParameter();
             parmGoodId.ParameterName = "@good_id";
-            parmGoodId.DbType = DbType.Int32;
+            parmGoodId.DbType = DbType.String;
             parmGoodId.Value = stock.Good_Id;
 
             DataParameter parmStockNum = new DataParameter();
@@ -211,13 +211,13 @@ namespace Web0204.BM.BLL
     " FROM t_Stock stocks WHERE 1 = 1");
             IList parameters = new ArrayList();
 
-            if (stock.Good_Id != 0)
+            if ( false == String.IsNullOrEmpty(stock.Good_Id))
             {
                 commandText.Append(" And good_id=@good_id");
 
                 DataParameter parmGoodId = new DataParameter();
                 parmGoodId.ParameterName = "@good_id";
-                parmGoodId.DbType = DbType.Int32;
+                parmGoodId.DbType = DbType.String;
                 parmGoodId.Value = stock.Good_Id;
                 parameters.Add(parmGoodId);
             }
@@ -252,7 +252,7 @@ namespace Web0204.BM.BLL
                 "SUM(CONVERT(int, stocks.stock_num) * stocks.stock_oper) * CONVERT(int,stocks.purchase_price) sum, " +
                 "convert(int,a.date) date,a.good_name good_name from t_stock stocks " +
                 "left join (select t_good.good_name,t_stock.good_id, purchase_price, max(purchase_datetime) date " +
-                "from t_stock,t_good where convert(int,t_good.good_num)=t_stock.good_id " +
+                "from t_stock,t_good where t_good.good_num=t_stock.good_id " +
                 "group by t_stock.good_id, t_stock.purchase_price, t_good.good_name) a " +
                 "on (a.good_id = stocks.good_id and a.purchase_price = stocks.purchase_price) " +
                 "where 1=1 ");
@@ -270,13 +270,13 @@ namespace Web0204.BM.BLL
  */
             IList parameters = new ArrayList();
 
-            if (stock.Good_Id != 0)
+            if ( false == String.IsNullOrEmpty(stock.Good_Id))
             {
                 commandText.Append(" And stocks.good_id=@good_id ");
 
                 DataParameter parmGoodId = new DataParameter();
                 parmGoodId.ParameterName = "@good_id";
-                parmGoodId.DbType = DbType.Int32;
+                parmGoodId.DbType = DbType.String;
                 parmGoodId.Value = stock.Good_Id;
                 parameters.Add(parmGoodId);
             }
@@ -305,13 +305,13 @@ namespace Web0204.BM.BLL
 
             IList parameters = new ArrayList();
 
-            if (stock.Good_Id != 0)
+            if ( false == String.IsNullOrEmpty(stock.Good_Id))
             {
                 commandText.Append(" and t_stock.good_id=@good_id ");
 
                 DataParameter parmGoodId = new DataParameter();
                 parmGoodId.ParameterName = "@good_id";
-                parmGoodId.DbType = DbType.Int32;
+                parmGoodId.DbType = DbType.String;
                 parmGoodId.Value = stock.Good_Id;
                 parameters.Add(parmGoodId);
             }
@@ -338,13 +338,13 @@ namespace Web0204.BM.BLL
 
             IList parameters = new ArrayList();
 
-            if (stock.Good_Id != 0)
+            if ( false == String.IsNullOrEmpty(stock.Good_Id))
             {
                 commandText.Append(" and t_stock.good_id=@good_id ");
 
                 DataParameter parmGoodId = new DataParameter();
                 parmGoodId.ParameterName = "@good_id";
-                parmGoodId.DbType = DbType.Int32;
+                parmGoodId.DbType = DbType.String;
                 parmGoodId.Value = stock.Good_Id;
                 parameters.Add(parmGoodId);
             }
@@ -385,7 +385,7 @@ namespace Web0204.BM.BLL
         /// </summary>
         /// <param name="goodid">商品ID</param>
         /// <returns></returns>
-        public DataTable GetStocks(int goodid)
+        public DataTable GetStocks(string goodid)
         {
             //string commandText = "SELECT stock_num,purchase_price from t_stock where" +
             //    " good_id = @good_id order by purchase_price ASC";
@@ -396,7 +396,7 @@ namespace Web0204.BM.BLL
 
             DataParameter parmID = new DataParameter();
             parmID.ParameterName = "@good_id";
-            parmID.DbType = DbType.Int32;
+            parmID.DbType = DbType.String;
             parmID.Value = goodid;
             parameters.Add(parmID);
 
@@ -433,7 +433,7 @@ namespace Web0204.BM.BLL
 
             DataParameter parmGoodId = new DataParameter();
             parmGoodId.ParameterName = "@good_id";
-            parmGoodId.DbType = DbType.Int32;
+            parmGoodId.DbType = DbType.String;
             parmGoodId.Value = stock.Good_Id;
 
             IList parameters = new ArrayList();

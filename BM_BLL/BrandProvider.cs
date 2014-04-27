@@ -125,7 +125,7 @@ namespace Web0204.BM.BLL
 
             }
 
-            if (!String.IsNullOrEmpty(brand.Brand_name))
+            if ( false == String.IsNullOrEmpty(brand.Brand_name))
             {
                 commandText.Append(" AND brand_name like @brand_name ");
 

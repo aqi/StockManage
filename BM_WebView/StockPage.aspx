@@ -90,10 +90,7 @@ body {
     </td>
     <td style="width: 516px; height: 184px; font-size: 12px;" valign="top">
         <asp:Label ID="lbl_GoodId" runat="server" Text="商品编号："></asp:Label>
-        <asp:TextBox ID="txt_goodid" runat="server"></asp:TextBox>
-        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txt_goodid"
-            ErrorMessage="商品编号格式为‘000000...’！" ValidationExpression="\d*"></asp:RegularExpressionValidator>
- 
+        <asp:TextBox ID="txt_goodid" runat="server"></asp:TextBox> 
         &nbsp;
         <br />
         <asp:Label ID="lbl_Price" runat="server" Text="单价："></asp:Label>

@@ -22,7 +22,7 @@ namespace Web0204.BM.BLL
         /// <returns>添加成功返回true,否则返回false</returns>
         public bool Insert(Sale sale)
         {
-            if (sale.Good_Id == 0)
+            if ( true == String.IsNullOrEmpty(sale.Good_Id))
             {
                 return false;
             }
@@ -33,7 +33,7 @@ namespace Web0204.BM.BLL
                                     "@sale_price,@purchase_price,@sale_num,@sale_datetime,@staffinfo_id,@buyer_id,@year_month)";
                 DataParameter parmGoodId = new DataParameter();
                 parmGoodId.ParameterName = "@good_id";
-                parmGoodId.DbType = DbType.Int32;
+                parmGoodId.DbType = DbType.String;
                 parmGoodId.Value = sale.Good_Id;
 
                 DataParameter parmGoodName = new DataParameter();
@@ -76,7 +76,6 @@ namespace Web0204.BM.BLL
                 parmYearMonth.DbType = DbType.Int32;
                 parmYearMonth.Value = sale.Year_Month;
 
-                parmBuyerId.Value = sale.Buyer_Id;
                 IList parameters = new ArrayList();
                 parameters.Add(parmGoodId);
                 parameters.Add(parmGoodName);
@@ -129,7 +128,7 @@ namespace Web0204.BM.BLL
 
             DataParameter parmGoodId = new DataParameter();
             parmGoodId.ParameterName = "@good_id";
-            parmGoodId.DbType = DbType.Int32;
+            parmGoodId.DbType = DbType.String;
             parmGoodId.Value = sale.Good_Id;
 
             DataParameter parmSalePrice = new DataParameter();
@@ -204,13 +203,13 @@ namespace Web0204.BM.BLL
     " buyer_id FROM t_Sale sales WHERE 1 = 1");
             IList parameters = new ArrayList();
 
-            if (sale.Good_Id != 0)
+            if ( false == String.IsNullOrEmpty(sale.Good_Id))
             {
                 commandText.Append(" And good_id=@good_id");
 
                 DataParameter parmGoodId = new DataParameter();
                 parmGoodId.ParameterName = "@good_id";
-                parmGoodId.DbType = DbType.Int32;
+                parmGoodId.DbType = DbType.String;
                 parmGoodId.Value = sale.Good_Id;
                 parameters.Add(parmGoodId);
             }
@@ -254,16 +253,17 @@ namespace Web0204.BM.BLL
             commandText.Append("SELECT convert(char,sale_id) sale_id,good_id,sale_price, " +
                 " purchase_price, convert(int,purchase_price) * convert(int,sale_num) purchase_total, sale_num, " +
                 "convert(int,sale_price) * convert(int,sale_num) sale_total, sale_datetime, " +
-                "((convert(int,sale_price) - convert(int,purchase_price)) * convert(int,sale_num)) sale_profit, buyer_id FROM t_Sale sales WHERE 1 = 1");
+                "((convert(int,sale_price) - convert(int,purchase_price)) * convert(int,sale_num)) sale_profit, " +
+                "('P' + right('000000' + convert(varchar(8), buyer_id), 7)) buyer_bh  FROM t_Sale sales WHERE 1 = 1");
             IList parameters = new ArrayList();
 
-            if (sale.Good_Id != 0)
+            if ( false == String.IsNullOrEmpty(sale.Good_Id))
             {
                 commandText.Append(" And good_id=@good_id");
 
                 DataParameter parmGoodId = new DataParameter();
                 parmGoodId.ParameterName = "@good_id";
-                parmGoodId.DbType = DbType.Int32;
+                parmGoodId.DbType = DbType.String;
                 parmGoodId.Value = sale.Good_Id;
                 parameters.Add(parmGoodId);
             }
@@ -302,11 +302,11 @@ namespace Web0204.BM.BLL
             }
 
             commandText.Append(" union all select ");
-            if (sale.Good_Id != 0 && sale.Year_Month != 0)
+            if ( false == String.IsNullOrEmpty(sale.Good_Id) && sale.Year_Month != 0)
             {
                 commandText.Append("'本月本编号合计', ");
             }
-            else if (sale.Good_Id != 0)
+            else if ( false == String.IsNullOrEmpty(sale.Good_Id))
             {
                 commandText.Append("'本编号合计', ");
             }
@@ -319,7 +319,7 @@ namespace Web0204.BM.BLL
                 commandText.Append("'合计', ");
             }
 
-            if (sale.Good_Id != 0)
+            if ( false == String.IsNullOrEmpty(sale.Good_Id))
                 commandText.Append("@good_id1, ");
             else
                 commandText.Append("'', ");
@@ -333,13 +333,13 @@ namespace Web0204.BM.BLL
 
             commandText.Append("SUM((convert(int,sale_price) - convert(int,purchase_price)) * convert(int,sale_num)) sale_profit, '' FROM t_sale sales WHERE 1 = 1 ");
 
-            if (sale.Good_Id != 0)
+            if ( false == String.IsNullOrEmpty(sale.Good_Id))
             {
                 commandText.Append(" And good_id=@good_id1 ");
 
                 DataParameter parmGoodId1 = new DataParameter();
                 parmGoodId1.ParameterName = "@good_id1";
-                parmGoodId1.DbType = DbType.Int32;
+                parmGoodId1.DbType = DbType.String;
                 parmGoodId1.Value = sale.Good_Id;
                 parameters.Add(parmGoodId1);
             }
@@ -496,7 +496,7 @@ namespace Web0204.BM.BLL
             StringBuilder commandText = new StringBuilder();
 
             commandText.Append("select sales.sale_id sale_id,staff.staffinfo_id staffinfo_id, staff.staffinfo_name staffinfo_name," +
-                "staff.staffinfo_cell, buyer.buyer_id buyer_id , " +
+                "staff.staffinfo_cell, buyer.buyer_id buyer_id , ('P' + right('000000' + convert(varchar(8), buyer.buyer_id), 7)) buyer_bh, " +
                 "buyer.buyer_name buyer_name from t_staff staff, t_buyer buyer, t_sale sales " +
                 "where sales.sale_id=@sale_id and staff.staffinfo_id=sales.staffinfo_id and buyer.buyer_id=sales.buyer_id ");
             IList parameters = new ArrayList();

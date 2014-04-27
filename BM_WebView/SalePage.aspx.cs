@@ -15,7 +15,7 @@ namespace Web0204.BM.WebView
 {
     public partial class SalePage : PageBase
     {
-        private int stock_sum;
+        //private int stock_sum;
         private string id;
         private int staffinfo_id;
         private int purchase_price;
@@ -49,7 +49,7 @@ namespace Web0204.BM.WebView
         {
             StockProvider provider = new StockProvider();
 
-            DataTable table = provider.GetStocks(Convert.ToInt32(this.ddl_GoodId.SelectedValue.ToString()));
+            DataTable table = provider.GetStocks(this.ddl_GoodId.SelectedValue.ToString());
             int price = 0;
             int num = 0;
             if (this.txt_price.Text != "")
@@ -88,14 +88,9 @@ namespace Web0204.BM.WebView
             {
                 sale.Staffinfo_Id = staffinfo_id;
             } 
-            if (this.ddl_GoodId.SelectedValue.ToString() == "")
-            {
-                sale.Good_Id = 0;
-            }
-            else
-            {
-                sale.Good_Id = Convert.ToInt32(this.ddl_GoodId.SelectedValue.ToString());
-            }
+
+            sale.Good_Id = this.ddl_GoodId.SelectedValue.ToString();
+
             sale.Sale_Datetime = DateTime.Now.ToString("yyyyMMdd"); ;//Convert.ToDateTime( DateTime.Now.ToString("HH:mm:ss"));
             sale.Sale_Price= this.txt_price.Text;
             //sale.Purchase_Price = Session["PURCHASEPRICE"].ToString();//purchase_price.ToString();
@@ -107,7 +102,9 @@ namespace Web0204.BM.WebView
             }
             else
             {
-                sale.Buyer_Id = Convert.ToInt32(this.ddl_buyerid.SelectedValue.ToString());
+                string value = this.ddl_buyerid.SelectedValue.ToString();
+                value = value.Substring(1);
+                sale.Buyer_Id = Convert.ToInt32(value);//this.ddl_buyerid.SelectedValue.ToString());
             }
 
             sale.Good_Name = this.txt_goodname.Text;
@@ -118,12 +115,12 @@ namespace Web0204.BM.WebView
 
         private void TextCancel()
         {
-            this.ddl_GoodId.SelectedIndex = -1;
+            //this.ddl_GoodId.SelectedIndex = -1;
             this.txt_datetime.Text = DateTime.Now.ToString("yyyyMMdd");
             this.txt_price.Text = "";
             this.txt_num.Text = "";
-            this.txt_goodname.Text = Good_Record.Rows[0]["good_name"].ToString();
-            this.ddl_buyerid.SelectedIndex = -1;
+            //this.txt_goodname.Text = Good_Record.Rows[0]["good_name"].ToString();
+            //this.ddl_buyerid.SelectedIndex = -1;
             
         }
 
@@ -152,12 +149,12 @@ namespace Web0204.BM.WebView
                 this.ddl_GoodId.DataBind();
                 this.ddl_buyerid.DataSource = Buyer_Record;
                 this.ddl_buyerid.Width = 100;
-                this.ddl_buyerid.DataValueField = "buyer_id";
+                this.ddl_buyerid.DataValueField = "buyer_bh";
                 this.ddl_buyerid.DataBind();
 
                 StockProvider provider = new StockProvider();
 
-                DataTable table = provider.GetStocks(Convert.ToInt32(this.ddl_GoodId.SelectedValue.ToString()));
+                DataTable table = provider.GetStocks(this.ddl_GoodId.SelectedValue.ToString());
 
                 int min = 0;
                 int max = 0;
@@ -182,9 +179,24 @@ namespace Web0204.BM.WebView
                         max = price;
                     }
                 }
+
                 this.lbl_PriceRange.Text = " 采购价格最低为：" + min.ToString() + " 最高为:" + max.ToString();
                 this.lbl_StockNum.Text = "库存还剩：" + sum.ToString();
-                stock_sum = sum;
+                //stock_sum = sum;
+                Session["STOCKSUM"] = sum.ToString();
+
+                Good good = new Good();
+                GoodProvider provider1 = new GoodProvider();
+                String good_name = "";
+                good.Good_Num = this.ddl_GoodId.SelectedValue.ToString();
+
+                DataTable table1 = provider1.Select(good);
+
+                if (table1 != null && table1.Rows.Count == 1)
+                {
+                    good_name = table1.Rows[0]["good_name"].ToString();
+                }
+                this.txt_goodname.Text = good_name;
             }
             if (Request.QueryString["staffid"] != null)
             {
@@ -215,7 +227,7 @@ namespace Web0204.BM.WebView
             switch (this.OperationFlag)
             {
                 case Operation.Add:
-                    if (sales.Good_Id == 0)
+                    if (true == String.IsNullOrEmpty(sales.Good_Id))
                     {
                         this.Alert("商品编号没设置，添加失败!!!");
                         break;
@@ -251,13 +263,15 @@ namespace Web0204.BM.WebView
                         {
                             this.Alert("添加成功!!!");
                             this.TextCancel();
-                            stock_sum -= Convert.ToInt32(sales.Sale_Num);
-                            this.lbl_StockNum.Text = "库存还剩：" + stock_sum.ToString();
+                            int sum = Convert.ToInt32(Session["STOCKSUM"].ToString());
+                            sum -= Convert.ToInt32(sales.Sale_Num);
+                            Session["STOCKSUM"] = sum.ToString();
+                            this.lbl_StockNum.Text = "库存还剩：" + sum.ToString();
                         }
                     }
                     break;
                 case Operation.Update:
-                    if (sales.Good_Id == 0)
+                    if ( false == String.IsNullOrEmpty(sales.Good_Id))
                     {
                         this.Alert("参数错误，修改失败!!!");
                         break;
@@ -287,7 +301,7 @@ namespace Web0204.BM.WebView
 
             StockProvider provider1 = new StockProvider();
 
-            table = provider1.GetStocks(Convert.ToInt32(this.ddl_GoodId.SelectedValue.ToString()));
+            table = provider1.GetStocks(this.ddl_GoodId.SelectedValue.ToString());
 
             int min = 0;
             int max = 0;
@@ -314,6 +328,7 @@ namespace Web0204.BM.WebView
             }
             this.lbl_PriceRange.Text = " 采购价格最低为：" + min.ToString() + " 最高为:" + max.ToString();
             this.lbl_StockNum.Text = "库存还剩：" + sum.ToString();
+            Session["STOCKSUM"] = sum.ToString();
 
             this.txt_goodname.Text = good_name;
             this.txt_goodname.Enabled = false;

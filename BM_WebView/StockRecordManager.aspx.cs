@@ -119,7 +119,7 @@ namespace Web0204.BM.WebView
             }
             else
             {
-                stock.Good_Id = Convert.ToInt32(this.txt_Position.Text.ToString());
+                stock.Good_Id = this.txt_Position.Text.ToString();
                 this.BindSource(stock, e.StartRecord);               
             }
         }
@@ -129,12 +129,11 @@ namespace Web0204.BM.WebView
         protected void btn_Result_Click(object sender, EventArgs e)
         {
             Stock stock = new Stock();
-            int index = 0;
 
-            stock.Good_Id = 0;
+            stock.Good_Id = "";
             if (this.txt_Position.Text != "")
             {
-                stock.Good_Id = Convert.ToInt32(txt_Position.Text.ToString());
+                stock.Good_Id = txt_Position.Text.ToString();
             }
             StockProvider provider = new StockProvider();
             this.ListPager1.RecordCount = provider.GetSize();
