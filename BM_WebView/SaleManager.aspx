@@ -97,6 +97,9 @@ body {
         <asp:Label ID="lbl_Yearmonth" runat="server" Text="根据月份查询:" Font-Size="12px"></asp:Label>
         <asp:TextBox ID="txt_Yearmonth" MaxLength="6" runat="server"></asp:TextBox>
         <asp:Button ID="btn_Result" runat="server" OnClick="btn_Result_Click" Text="查 询" Font-Size="12px" />
+        &nbsp;&nbsp;&nbsp;
+        <asp:Button ID="btn_Export" runat="server" OnClick="btn_Export_Click" Text="导 出" Font-Size="12px" />
+        &nbsp;
         <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txt_Yearmonth"
             ErrorMessage="月份格式为‘201301’！" ValidationExpression="\d\d\d\d\d\d"></asp:RegularExpressionValidator>
         &nbsp;

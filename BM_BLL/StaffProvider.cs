@@ -388,21 +388,36 @@ namespace Web0204.BM.BLL
         /// <returns>删除成功返回true,否则返回false</returns>
         public bool Delete(Staff staff)
         {
-            if (staff.Staffinfo_id == 0)
+            if (staff.Staffinfo_id == 0 && staff.User_id == 0)
             {
                 return false;
             }
-            string commandText = "DELETE FROM t_staff WHERE staffinfo_id=@id";
-
-            DataParameter parmID = new DataParameter();
-            parmID.ParameterName = "@id";
-            parmID.DbType = DbType.Int32;
-            parmID.Value = staff.Staffinfo_id;
-
+            StringBuilder commandText = new StringBuilder();
             IList parameters = new ArrayList();
-            parameters.Add(parmID);
 
-            return this.handler.ExecuteCommand(commandText, parameters);
+            commandText.Append("DELETE FROM t_staff WHERE 1 = 1 ");
+
+            if (staff.Staffinfo_id != 0)
+            {
+                commandText.Append(" AND staffinfo_id=@staffinfo_id ");
+                DataParameter parmID = new DataParameter();
+                parmID.ParameterName = "@id";
+                parmID.DbType = DbType.Int32;
+                parmID.Value = staff.Staffinfo_id;
+                parameters.Add(parmID);
+            }
+
+            if (staff.User_id != 0)
+            {
+                commandText.Append(" AND user_id=@user_id ");
+                DataParameter parmID1 = new DataParameter();
+                parmID1.ParameterName = "@user_id";
+                parmID1.DbType = DbType.Int32;
+                parmID1.Value = staff.User_id;
+                parameters.Add(parmID1);
+            }
+
+            return this.handler.ExecuteCommand(commandText.ToString(), parameters);
         }
 
         #endregion 

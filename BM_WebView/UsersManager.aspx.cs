@@ -149,19 +149,24 @@ namespace Web0204.BM.WebView
             UserProvider provider = new UserProvider();
             if (provider.Delete(user))
             {
-                this.Alert("删除成功!!!");
-
-                if (this.txt_Name.Text == "")
+                StaffProvider provider1 = new StaffProvider();
+                Staff staff = new Staff();
+                staff.User_id = user.User_id;
+                if (provider1.Delete(staff))
                 {
-                    this.ListPager1.RecordCount = this.ListPager1.RecordCount - 1;
-                    this.BindSource(null);
-                }
-                else
-                {
-                    this.ListPager1.RecordCount = this.ListPager1.RecordCount - 1;
-                    this.BindSource("%" + this.txt_Name.Text + "%");
-                }
+                    this.Alert("删除成功!!!");
 
+                    if (this.txt_Name.Text == "")
+                    {
+                        this.ListPager1.RecordCount = this.ListPager1.RecordCount - 1;
+                        this.BindSource(null);
+                    }
+                    else
+                    {
+                        this.ListPager1.RecordCount = this.ListPager1.RecordCount - 1;
+                        this.BindSource("%" + this.txt_Name.Text + "%");
+                    }
+                }
             }
         }
 
