@@ -1,9 +1,0 @@
-bin\Debug\BM_BLL.dll
-bin\Debug\BM_BLL.pdb
-bin\Debug\BM_DAL.dll
-bin\Debug\BM_Info.dll
-bin\Debug\BM_DAL.pdb
-bin\Debug\BM_Info.pdb
-obj\Debug\ResolveAssemblyReference.cache
-obj\Debug\BM_BLL.dll
-obj\Debug\BM_BLL.pdb
